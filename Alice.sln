@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2009
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alice_server", "Alice\Alice_server.csproj", "{3EDE2893-BE0C-4FA5-B1F1-5646D62C779F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alice_client", "Alice_client\Alice_client.csproj", "{4A7A9D4C-678F-45B2-815B-C7CA47B618DE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3EDE2893-BE0C-4FA5-B1F1-5646D62C779F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3EDE2893-BE0C-4FA5-B1F1-5646D62C779F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3EDE2893-BE0C-4FA5-B1F1-5646D62C779F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3EDE2893-BE0C-4FA5-B1F1-5646D62C779F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A7A9D4C-678F-45B2-815B-C7CA47B618DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A7A9D4C-678F-45B2-815B-C7CA47B618DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A7A9D4C-678F-45B2-815B-C7CA47B618DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A7A9D4C-678F-45B2-815B-C7CA47B618DE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {469FE202-24C7-4A6D-BFD5-84AEAC87B328}
+	EndGlobalSection
+EndGlobal

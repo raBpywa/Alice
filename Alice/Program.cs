@@ -14,7 +14,7 @@ namespace Alice_server
         static void Main(string[] args)
         {
 
-            AServer _aServer = new AServer(1999,10);
+            AServer _aServer = new AServer(1999,100);
 
             Thread start_send = new Thread(_aServer.Start);
             start_send.Start();

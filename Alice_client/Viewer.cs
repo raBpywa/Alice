@@ -16,13 +16,14 @@ namespace Alice_client
         {
             InitializeComponent();
         }
-
+        
         public void see(Bitmap bmp)
         {
+            
             pictureBox1.Image = bmp;
             pictureBox1.Refresh();           
-           
-           
         }
+
+       
     }
 }

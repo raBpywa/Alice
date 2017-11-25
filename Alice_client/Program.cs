@@ -19,11 +19,12 @@ namespace Alice_client
             string input = "";
             Viewer view = new Viewer();
             view.Show();
-            while(true)
+            _listenport.EventConvertToBitmap += view.see;
+            while (true)
             {
                 System.Windows.Forms.Application.DoEvents();
-                view.see(_listenport.BackGround);
-                Thread.Sleep(100);
+                //    view.see(_listenport.BackGround);
+                  // Thread.Sleep(1000);
             }
 
         }

@@ -20,6 +20,11 @@ namespace Alice_client
         public bool isStart = false;
         public bool isViewer = false;
 
+        public delegate void MethodContainer(Bitmap BackGround);
+
+        //Событие OnCount c типом делегата MethodContainer.
+        public event MethodContainer EventConvertToBitmap;
+
         public ListenToThePort(int Port)
         {
             udpClient = new UdpClient(Port);
@@ -71,6 +76,7 @@ namespace Alice_client
         {
             MemoryStream memoryStream = new MemoryStream(bytes);
             Bitmap bmp = (Bitmap)System.Drawing.Bitmap.FromStream(memoryStream);
+            EventConvertToBitmap(bmp);
             Console.WriteLine("Получена картинка");
             
             return bmp;

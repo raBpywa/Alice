@@ -23,12 +23,12 @@ namespace Alice_client
         public delegate void MethodContainer(Bitmap BackGround);
 
         //Событие OnCount c типом делегата MethodContainer.
-        public event MethodContainer EventConvertToBitmap;
+        public static event MethodContainer EventConvertToBitmap;
 
         public ListenToThePort(int Port)
         {
             udpClient = new UdpClient(Port);
-            ep = new IPEndPoint(IPAddress.Loopback,0);
+            ep = new IPEndPoint(IPAddress.Any,19999);
         }
         
         public void Start()
@@ -62,15 +62,64 @@ namespace Alice_client
             }
         }
 
-       
+        public static void Start(Socket s)
+        {
+           bool isStart = true;
+            while (isStart)
+            {
+                System.Windows.Forms.Application.DoEvents();
+                try
+                {
+                    MemoryStream memoryStream = new MemoryStream();
+                    byte[] bytes = new byte[65500];
+                    int o= s.Receive(bytes);
+
+                    if (o != 0)
+                    {
+                       // break;
+                    }
+                    memoryStream.Write(bytes, 2, bytes.Length - 2);
+
+                    int countMsg = bytes[0] - 1;
+                    if (countMsg > 10)
+                        throw new Exception("Потеря первого пакета");
+                    for (int i = 0; i < countMsg; i++)
+                    {
+                        byte[] bt = new byte[65500];
+
+                        o = s.Receive(bt);
+                        if (o != 65500)
+                        {
+                            // break;
+                        }
+                        memoryStream.Write(bt, 0, bt.Length);
+                    }
+
+                    Receive_GetData(memoryStream.ToArray());
+                    memoryStream.Close();
+                }
+                catch (Exception ex)
+                {
+                  //  Console.WriteLine(countErorr++);
+                }
+            }
+        }
+
+
         public void Stop()
         {
             isStart = false;
         }
         
-        private void Receive_GetData(byte[] Date)
+       static private void Receive_GetData(byte[] Date)
         {
-            BackGround = ConvertToBitmap(Date);
+            MemoryStream memoryStream = new MemoryStream(Date);
+            Bitmap bmp = (Bitmap)System.Drawing.Bitmap.FromStream(memoryStream);
+           // bmp.Save("dsadasd.jpg");
+            EventConvertToBitmap(bmp);
+            Console.WriteLine(Date.Length);
+            // Console.WriteLine("Получена картинка");
+            //  BackGround = ConvertToBitmap(Date);
         }
         private Bitmap ConvertToBitmap(byte[] bytes)
         {

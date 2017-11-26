@@ -32,6 +32,7 @@ namespace Alice_server
         {
             MemoryStream memoryStream = new MemoryStream();
             // Конвертируем в массив байтов с сжатием Jpeg
+            bmp = BaseTools.ResizeImage(bmp, new Size(800, 600));
             bmp.Save(memoryStream, System.Drawing.Imaging.ImageFormat.Jpeg);
             return memoryStream.ToArray();
         }

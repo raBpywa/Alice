@@ -1,15 +1,18 @@
 ﻿using System.Net.Sockets;
 using System.Net;
 using System.Collections.Generic;
-
+using System;
 
 namespace Alice_server
 {
     class Create_Upload
     {
         UdpClient udpClient=new UdpClient();
+        
+        
         IPEndPoint pEndPoint;
         IPAddress ip;
+        
         public Create_Upload(string Ip,int Port)
         {
             this.ip = IPAddress.Parse(Ip);

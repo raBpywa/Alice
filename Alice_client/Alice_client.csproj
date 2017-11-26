@@ -43,11 +43,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ListenToThePort.cs" />
+    <Compile Include="Connection.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SendUDP.cs" />
-    <Compile Include="UDPListener.cs" />
+    <Compile Include="ServerCon.cs" />
+    <Compile Include="User.cs" />
     <Compile Include="Viewer.cs">
       <SubType>Form</SubType>
     </Compile>

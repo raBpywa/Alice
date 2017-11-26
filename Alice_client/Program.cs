@@ -13,46 +13,59 @@ namespace Alice_client
     {
         static void Main(string[] args)
         {
-            Viewer view = new Viewer();
-            view.Show();
-            ListenToThePort.EventConvertToBitmap += view.see;
-            //UDPListener _Udp = new UDPListener();
-            //_Udp.ListenPort += Messag;
-            //Thread _list = new Thread(_Udp.cheak);
-            //_list.Start();
-            //Thread.Sleep(200);
-            SendUDP _sec = new SendUDP("46.173.208.70", 19999,  "1q2w3e4");
-            _sec.EventConvertToBitmap += view.see;
-            _sec.Send("46.173.208.70", 19999, "1q2w3e4");
-          
+            // List<ServerCon> _all_server_connection = new List<ServerCon>();
+            // Viewer view = new Viewer();
+            // view.Show();
 
-            while (true)
+            User _my = new User();
+
+            Connection server1 = new Connection("46.173.208.70",19999);
+            if (server1.isConnect)
             {
-                System.Windows.Forms.Application.DoEvents();
-            }
-            Console.ReadLine();
-            //ListenToThePort _listenport = new ListenToThePort(19999);
-            ////_listenport.Start();
-            //Thread _thread = new Thread(_listenport.Start);
-            //_thread.Start();
-            //Thread.Sleep(1000);
-            //string input = "";
-           
-            //while (true)
-            //{
-            //    System.Windows.Forms.Application.DoEvents();
-            //    //    view.see(_listenport.BackGround);
-            //      // Thread.Sleep(1000);
-            //}
+                string ttt = _my.Authorization();
+                server1.send_mess(Convertbtst(_my.Authorization()));
+                if (_my._ID_USER != 0)
+                {
 
-        }
+                    while (true)
+                    {
+                        server1.send_mess(Convertbtst(Console.ReadLine()));
+                    }
+                }
+                else
+                {
+                    string _reciv = Convertbtst(server1.Whait_recive());
+                    Console.WriteLine(_reciv);
+                    _my.UpdateUser(_reciv);
+                  
+                    while (true)
+                    {
+                        server1.send_mess(Convertbtst(_my.Authorization()+"--->"+ Console.ReadLine()));
+                    }
+                }
+            }
+            else
+            {
+                Console.WriteLine("Сервер не найден");
+                Console.ReadLine();
+            }
+    }
 
    
 
 
-        public static void Messag(byte[] data)
+        public static string Convertbtst(byte[] data)
         {
-            Console.WriteLine(Encoding.ASCII.GetString(data, 0, data.Length));
+           string out_=Encoding.ASCII.GetString(data, 0, data.Length);
+            return out_;
+        }
+
+        public static byte[] Convertbtst(string data)
+        {
+            byte[] bt=Encoding.ASCII.GetBytes(data);
+            return bt;
         }
     }
+
+
 }

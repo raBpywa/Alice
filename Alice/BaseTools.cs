@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using System.Drawing;
 
 namespace Alice_server
@@ -30,7 +31,11 @@ namespace Alice_server
             return msg;
         }
 
-
+        public static string Convertbtst(byte[] data)
+        {
+            string out_ = Encoding.ASCII.GetString(data, 0, data.Length);
+            return out_;
+        }
         public static Bitmap ResizeImage(Bitmap imgToResize, Size size)
         {
             try

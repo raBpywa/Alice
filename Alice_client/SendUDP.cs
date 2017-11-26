@@ -12,103 +12,34 @@ using System.IO;
 
 namespace Alice_client
 {
-    class SendUDP
+    static class  SendUDP
     {
-        public delegate void MethodContainer(Bitmap BackGround);
-
-        //Событие OnCount c типом делегата MethodContainer.
-        public event MethodContainer EventConvertToBitmap;
-
-        Socket s = new Socket(AddressFamily.InterNetwork, SocketType.Dgram,
-ProtocolType.Udp);
-        string IP;
-        int port;
-        string text;
-        IPAddress broadcast;
-        byte[] sendbuf;
-        public  SendUDP(string IP,int port,string text)
+        
+        public static ServerCon _ConnectionUDP(string IP,int port)
         {
-       this.IP= IP;
-            this.port= port;
-            this.text= text;
-         this.broadcast = IPAddress.Parse(IP);
-            this.sendbuf = Encoding.ASCII.GetBytes(text);
+        
+            UdpClient Connec = new UdpClient();
+            Socket s = new Socket(AddressFamily.InterNetwork, SocketType.Dgram,ProtocolType.Udp);
+            s.ReceiveTimeout =5000;
+            IPAddress broadcast = IPAddress.Parse(IP);
+            byte[] sendbuf = Encoding.ASCII.GetBytes("ping");
             IPEndPoint ep = new IPEndPoint(broadcast, port);
-        }
-       //("46.173.208.70");
-       public void Send(string IP, int port, string text)
-        {
-            this.IP = IP;
-            this.port = port;
-            this.text = text;
-
-            byte[] sendbuf = Encoding.ASCII.GetBytes(text);
-            IPEndPoint ep = new IPEndPoint(broadcast, port);
-            for (int i = 0; i < 5; i++)
-            {
-                Thread.Sleep(3);
-                s.SendTo(sendbuf, ep);
-                Console.WriteLine("Message sent to the broadcast address");
-                byte[] recdbuf22 = new byte[65500];
-                // Console.WriteLine("Message recevied");
-                while (true)
-                {
-                    try
-                    {
-                        ListenToThePort.Start(s);
-                        //s.Receive(recdbuf22);
-                        //ConvertToBitmap(recdbuf22, s);
-                    }
-                    catch(Exception ex)
-                    {
-
-                    }
-
-                        //string ttt = Encoding.ASCII.GetString(recdbuf22);
-                    // Console.WriteLine(ttt.Replace("\0",""));
-                }
-            }
-       
-    }
-
-        private void ConvertToBitmap(byte[] bytes, Socket s)
-        {
-            int _count = bytes[0] - 1;
-            MemoryStream memoryStream = new MemoryStream(bytes);
-            memoryStream.Write(bytes, 2, bytes.Length - 2);
-            int countMsg = _count;
-            if (countMsg > 10)
-                throw new Exception("Потеря первого пакета");
-            for (int i = 0; i < countMsg; i++)
-            {
-                s.Receive(bytes);
-                memoryStream.Write(bytes, 0, bytes.Length);
-            }
-
-            Receive_GetData(memoryStream.ToArray());
-            memoryStream.Close();
-            //Bitmap bmp = (Bitmap)System.Drawing.Bitmap.FromStream(memoryStream);
-         
-
-            //Console.WriteLine("Получена картинка");
-
+            s.SendTo(sendbuf, ep);
+            Connec.Client = s;
+            IPEndPoint remm;
+            
+            byte[] bytttt = Connec.Receive(ref ep);
+                string ppp = Encoding.ASCII.GetString(bytttt);
+                Console.Write(ppp);
+                Console.WriteLine("...OK");
            
+            ServerCon _new_ser = new ServerCon(Connec, ep);
+            //Console.ReadLine();
+            return _new_ser;
         }
 
-        private Bitmap Receive_GetData(byte[] v)
-        {
-            MemoryStream memoryStream = new MemoryStream(v);
-            Bitmap bmp = (Bitmap)System.Drawing.Bitmap.FromStream(memoryStream);
-            EventConvertToBitmap(bmp);
-            //Console.WriteLine("Получена картинка");
-
-            return bmp;
-        }
-
-        public void Close()
-        {
-
-            s.Close();
-        }
     }
+
+       
+   
 }

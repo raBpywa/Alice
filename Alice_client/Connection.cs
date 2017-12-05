@@ -11,8 +11,13 @@ namespace Alice_client
     class Connection
     {
         int count_try = 0;
+
+       public static Connection server1 { get; set; }
+
+        public static IPEndPoint   lastIp { get; set; }
+
         public bool isConnect=false;
-        ServerCon servcon { get; }
+        public ServerCon servcon { get; }
        public Connection(string IP,int Port)
         {
             while (servcon == null & count_try < 5)
@@ -23,20 +28,17 @@ namespace Alice_client
                     servcon = StartTheRepeat(IP, Port);
                     isConnect = true;
                 }
-                catch
+                catch(Exception ex)
                 {
-                    Console.WriteLine("Нет соединения с сервером");
+                    Console.WriteLine(ex.Message);
                     isConnect = false;
                 }
 
             }
         }
-
-        
-
         private ServerCon StartTheRepeat(string IP, int Port)
         {
-            Console.WriteLine("Подключение к серверу, попытка "+ count_try);
+            Console.WriteLine("Подключение к серверу, попытка " + count_try);
 
             ServerCon servcon = SendUDP._ConnectionUDP(IP, Port);
             return servcon;
@@ -46,13 +48,31 @@ namespace Alice_client
         {
             IPEndPoint iprec = servcon.Server_adress;
             byte[] sd = servcon.server_conect.Receive(ref iprec);
+            lastIp = iprec;
             return sd;
         }
 
-      
-        public void send_mess(byte[] data)
+        public byte[] Whait_recive(ref IPEndPoint iprec)
+        {
+             byte[] sd = servcon.server_conect.Receive(ref iprec);
+            return sd;
+        }
+
+
+        public void Send_mess(byte[] data)
         {
             servcon.server_conect.Send(data, data.Length, servcon.Server_adress);
+        }
+
+        public void Send_mess(byte[] data, IPEndPoint remoteIP)
+        {
+            servcon.server_conect.Send(data, data.Length, remoteIP);
+        }
+
+        public void Send_mess(string strdata, IPEndPoint remoteIP)
+        {
+            byte[] data = BaseTool.Convertbtst(strdata);
+            servcon.server_conect.Send(data, data.Length, remoteIP);
         }
 
     }

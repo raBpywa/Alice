@@ -10,21 +10,23 @@ using System.Drawing;
 using System.IO;
 
 
-namespace Alice_client
+namespace AliceSRV
 {
     static class SendUDP
     {
+
+
         public static ServerCon _ConnectionUDP(string IP, int port)
         {
             IPAddress broadcast = IPAddress.Parse(IP);
             IPEndPoint ep = new IPEndPoint(broadcast, port);
             UdpClient Connec = new UdpClient(port);
-
+         
             Socket s = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
             s.MulticastLoopback = true;
             s.ReceiveTimeout = 5000;
             Send_Messg(Connec, "ping_1", ep);
-            byte[] reciv = Whait_Messg(Connec, ep);
+            byte[] reciv=Whait_Messg(Connec, ep);
             //string you_ip = BaseTool.Convertbtst(reciv);
             ServerCon _new_ser = new ServerCon(Connec, ep);
             return _new_ser;

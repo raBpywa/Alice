@@ -7,16 +7,21 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
 
+
 namespace Alice_server
 {
     class Program
     {
+
         private static IPAddress remoteIPAddress;
         private static int remotePort;
         private static int localPort = 19999;
         static void Main(string[] args)
         {
-            ReceiverUDP.Receiver(localPort);
+
+            AllUser AllPlayer = new AllUser();
+            AllPrey AllPrey = new AllPrey();
+            ReceiverUDP.Receiver(localPort, AllPlayer, AllPrey);
         }
 
 

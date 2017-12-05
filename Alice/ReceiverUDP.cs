@@ -11,32 +11,25 @@ namespace Alice_server
 {
     static class ReceiverUDP
     {
-        public static void Receiver(int localPort)
+        public static UdpClient udpServer;
+        public static void Receiver(int localPort, AllUser AllPlayer,AllPrey AllPrey)
         {
             Console.WriteLine("Whait connect\n");
-            UdpClient udpServer = new UdpClient(localPort);
-            List<UserClient> _all_client = new List<UserClient>();
+            udpServer = new UdpClient(localPort);
+            byte[] ggg = BaseTools.Convertbtst("sdad");
+            // IPAddress ip = IPAddress.Parse("192.168.100.10");    //только если сервер за NAT
+            // IPEndPoint ep = new IPEndPoint(ip, 19999);           //только если сервер за NAT
+            // udpServer.Send(ggg, ggg.Length, ep);                  //только если сервер за NAT
             while (true)
             {
-               
                 var remoteEP = new IPEndPoint(IPAddress.Any, 19999);
+
                 var data = udpServer.Receive(ref remoteEP);
                 Console.WriteLine("Подключен " + remoteEP.Address + ":" + remoteEP.Port + " --> " + BaseTools.Convertbtst(data));
-                if (BaseTools.Convertbtst(data)== "[0][][]")
-                {
-                    _all_client.Add(new UserClient(_all_client.Count));
-                    byte[] msg = Encoding.ASCII.GetBytes(_all_client[_all_client.Count-1].Authorization());
-                    udpServer.Send(msg, msg.Length, remoteEP);
-                }
-                else
-                {
-                    byte[] msg = Encoding.ASCII.GetBytes("...ok");
-                    udpServer.Send(msg, msg.Length, remoteEP);
-                }
-                
-               
-                      
+                Command._start_command(data, remoteEP,AllPlayer,AllPrey);
             }
         }
+        
+        
     }
 }

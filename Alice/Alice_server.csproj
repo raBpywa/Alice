@@ -43,8 +43,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AllPrey.cs" />
+    <Compile Include="AllUser.cs" />
     <Compile Include="Authorization.cs" />
     <Compile Include="BaseTools.cs" />
+    <Compile Include="Command.cs" />
+    <Compile Include="Prey.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReceiverUDP.cs" />

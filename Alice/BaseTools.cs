@@ -36,6 +36,13 @@ namespace Alice_server
             string out_ = Encoding.ASCII.GetString(data, 0, data.Length);
             return out_;
         }
+
+
+        public static byte[] Convertbtst(string input)
+        {
+            byte[] out_ = Encoding.ASCII.GetBytes(input);
+            return out_;
+        }
         public static Bitmap ResizeImage(Bitmap imgToResize, Size size)
         {
             try
@@ -54,5 +61,21 @@ namespace Alice_server
                 return imgToResize;
             }
         }
+
+        public static string _GenerateTokenPrey()
+        {
+            var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            var stringChars = new char[8];
+            var random = new Random();
+
+            for (int i = 0; i < stringChars.Length; i++)
+            {
+                stringChars[i] = chars[random.Next(chars.Length)];
+            }
+
+            var finalString = new String(stringChars);
+            return finalString;
+        }
+
     }
 }

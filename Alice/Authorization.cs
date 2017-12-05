@@ -10,8 +10,8 @@ namespace Alice_server
     {
         public static string _cheak(string _command_line)
         {
-            string[] split = new string[] { "[", "]" };
-            string[] obj = _command_line.Split(split, StringSplitOptions.RemoveEmptyEntries);
+           
+           string[] obj = _command_line.Split(new string[] { "[", "]" }, StringSplitOptions.RemoveEmptyEntries);
            if(obj[0]=="0")
             {
                 return "0";

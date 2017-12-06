@@ -57,7 +57,18 @@ namespace Alice_client
              byte[] sd = servcon.server_conect.Receive(ref iprec);
             return sd;
         }
-
+        public byte[] Whait_recive_TRY_CATCH(ref IPEndPoint iprec)
+        {
+            try
+            {
+                byte[] sd = servcon.server_conect.Receive(ref iprec);
+                return sd;
+            }
+            catch
+            {
+                return new byte[] { 0 };
+            }
+        }
 
         public void Send_mess(byte[] data)
         {

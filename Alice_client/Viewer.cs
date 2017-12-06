@@ -26,33 +26,45 @@ namespace Alice_client
             pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
             flowLayoutPanel1.Controls.Add(pictureBox1);
         }
-
+        IPEndPoint _PreySRV = null;
 
         private void Start(int index)
         {
 
             
             Command._ConnectPrey(index);
-            this.Show();
+            this.Activate();
             IPEndPoint _aliceSRV = null;
-            byte[] ping1 = Connection.server1.Whait_recive(ref _aliceSRV);
-            byte[] ping2 = Connection.server1.Whait_recive(ref _aliceSRV);
-            for (int i = 0; i < 100; i++)
-            {
-                Application.DoEvents();
 
+            byte[] ping1 = Connection.server1.Whait_recive(ref _aliceSRV);
+            string ggg = BaseTool.Convertbtst(ping1);
+            Command._CheakCommand(ping1, _aliceSRV);
+                byte[] ping2 = Connection.server1.Whait_recive(ref _aliceSRV);
+            
+            for (int i=0;i<100;i++)
+            { 
+
+                Thread.Sleep(10);
+                byte[]  on= Connection.server1.Whait_recive(ref _aliceSRV);
               
-                    byte[] on = Connection.server1.Whait_recive(ref _aliceSRV);
-                    if (on[0].Equals((byte)i))
+
+                if (on.Length > 1)
+                {
+                    if (on[0].Equals((byte)allbyte.Count))
                     {
                         allbyte.Add(on);
-                        Connection.server1.Send_mess(BaseTool.Convertbtst("OK"), _aliceSRV);
+                        
+                        Connection.server1.Send_mess(BaseTool.Convertbtst("OKKKK"), _aliceSRV);
+                        _PreySRV = _aliceSRV;
                     }
                     else
                     {
 
                     }
-             
+                }
+                else
+                    Connection.server1.Send_mess(BaseTool.Convertbtst("NO"), _aliceSRV);
+
 
             }
             //Start_recive();
@@ -129,7 +141,6 @@ namespace Alice_client
                     Bitmap _see = BaseTool._Pullimage(BaseTool._GetList(allbyte));
                     Invoke(new Action(() => { see(_see); }));
 
-
                 }
 
                 if (isStartUpdate)
@@ -162,6 +173,35 @@ namespace Alice_client
         private void Viewer_Load(object sender, EventArgs e)
         {
             Start(index_for_Prey);
+        }
+
+      
+        int whait_send=0;
+        public bool capture = false;
+        private void flowLayoutPanel1_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (capture == true)
+            {
+                if (whait_send > 3)
+                {
+                    int _mouse_X = (Cursor.Position.X - this.Location.X)-10;
+                    int _mouse_Y = (Cursor.Position.Y - this.Location.Y)-30;
+                    Console.WriteLine(_mouse_X + " " + _mouse_Y);
+                    byte[] mousecoord = BaseTool.Convertbtst("[mouse_event][" + _mouse_X + "][" + _mouse_Y + "]");
+                    Connection.server1.Send_mess(mousecoord, _PreySRV);
+                    whait_send = 0;
+                }
+                else
+
+                {
+                    whait_send++;
+                }
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            capture = true;
         }
     }
 }

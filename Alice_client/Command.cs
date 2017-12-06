@@ -22,7 +22,10 @@ namespace Alice_client
             switch (commands[0])
             {
                 case "get_all_sacrifice":
-                    get_all_sacrifice(commands);
+                    if (commands.Length > 1)
+                    {
+                        get_all_sacrifice(commands);
+                    }
                     break;
                 case "append_prey":
                     get_add_sacrifice(commands);
@@ -95,33 +98,33 @@ namespace Alice_client
             Connection.server1.Send_mess("[OK][" + User._My._Login + "][connect]", _aliceSRV);
             Connection.server1.Send_mess(BaseTool.Convertbtst("OK"), _aliceSRV);
 
-            while (!start_PrtSc)
-            {
-                Thread.Sleep(1000);
+            //while (!start_PrtSc)
+            //{
+            //    Thread.Sleep(1000);
                 
-            }
+            //}
          
-            Viewer.allbyte = new List<byte[]>();
-            for (int i = 0; i < 100; i++)
-            {
-                byte[] on = Connection.server1.Whait_recive();
-                if (on[0].Equals((byte)i))
-                {
-                    Viewer.allbyte.Add(on);
-                    Connection.server1.Send_mess(BaseTool.Convertbtst("OK"), _aliceSRV);
-                }
-                else
-                {
+            //Viewer.allbyte = new List<byte[]>();
+            //for (int i = 0; i < 100; i++)
+            //{
+            //    byte[] on = Connection.server1.Whait_recive();
+            //    if (on[0].Equals((byte)i))
+            //    {
+            //        Viewer.allbyte.Add(on);
+            //        Connection.server1.Send_mess(BaseTool.Convertbtst("OK"), _aliceSRV);
+            //    }
+            //    else
+            //    {
 
-                }
-            }
+            //    }
+            //}
 
-            Bitmap _see = BaseTool._Pullimage(BaseTool._GetList(Viewer.allbyte));
-            //see(_see);
-            var t = Task.Run(() =>
-            {
-               // _update_data();
-            });
+            //Bitmap _see = BaseTool._Pullimage(BaseTool._GetList(Viewer.allbyte));
+            ////see(_see);
+            //var t = Task.Run(() =>
+            //{
+            //   // _update_data();
+            //});
         }
 
 

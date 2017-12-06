@@ -81,7 +81,8 @@ namespace Alice_client
         
         private void button4_Click(object sender, EventArgs e)
         {
-            Viewer _see = new Viewer(listView1.SelectedItems[0].Index);
+            _status = false;
+           Viewer _see = new Viewer(listView1.SelectedItems[0].Index);
             _see.Show();
         }
 
@@ -103,11 +104,14 @@ namespace Alice_client
                     if (_status)
                     {
                     IPEndPoint _aliceSRV = null;
-                    Command._CheakCommand(Connection.server1.Whait_recive(ref _aliceSRV),_aliceSRV);
+                    byte[] rec = Connection.server1.Whait_recive(ref _aliceSRV);
+                    string str_rec = BaseTool.Convertbtst(rec);
+                    Console.WriteLine("<====== "+_aliceSRV.ToString()+"  "+ str_rec);
+                    Command._CheakCommand(rec,_aliceSRV);
                     }
                     else
                     {
-                        Thread.Sleep(100);
+                    break;
                     }
                 }
                 // string test = BaseTool.Convertbtst(Connection.server1.Whait_recive());

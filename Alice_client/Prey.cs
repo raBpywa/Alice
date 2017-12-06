@@ -33,6 +33,7 @@ namespace Alice_client
         public static void _Get_Prey_List(Connection server1, User _my)
         {
             string _comm = _my.dataToString() + "[get_all_sacrifice]";
+            Console.WriteLine("====> " + _comm);
             server1.Send_mess(BaseTool.Convertbtst(_comm));
             //byte[] anyrec = server1.Whait_recive();
         }

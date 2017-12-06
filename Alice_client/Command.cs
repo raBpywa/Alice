@@ -90,41 +90,12 @@ namespace Alice_client
 
        public static void _startPRTSc(string[] commands)
         {
-        
-
-            IPEndPoint _aliceSRV = new IPEndPoint(
+        IPEndPoint _aliceSRV = new IPEndPoint(
                 IPAddress.Parse( BaseTool._get_ip_or_port(commands[2], BaseTool.IPorPORT.IP)),
                 Convert.ToInt32( BaseTool._get_ip_or_port(commands[2], BaseTool.IPorPORT.PORT)));
             Connection.server1.Send_mess("[OK][" + User._My._Login + "][connect]", _aliceSRV);
             Connection.server1.Send_mess(BaseTool.Convertbtst("OK"), _aliceSRV);
-
-            //while (!start_PrtSc)
-            //{
-            //    Thread.Sleep(1000);
-                
-            //}
-         
-            //Viewer.allbyte = new List<byte[]>();
-            //for (int i = 0; i < 100; i++)
-            //{
-            //    byte[] on = Connection.server1.Whait_recive();
-            //    if (on[0].Equals((byte)i))
-            //    {
-            //        Viewer.allbyte.Add(on);
-            //        Connection.server1.Send_mess(BaseTool.Convertbtst("OK"), _aliceSRV);
-            //    }
-            //    else
-            //    {
-
-            //    }
-            //}
-
-            //Bitmap _see = BaseTool._Pullimage(BaseTool._GetList(Viewer.allbyte));
-            ////see(_see);
-            //var t = Task.Run(() =>
-            //{
-            //   // _update_data();
-            //});
+            
         }
 
 

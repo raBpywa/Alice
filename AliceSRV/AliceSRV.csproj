@@ -47,6 +47,7 @@
     <Compile Include="BaseTool.cs" />
     <Compile Include="Commands.cs" />
     <Compile Include="Connection.cs" />
+    <Compile Include="MouseHook.cs" />
     <Compile Include="Prey.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

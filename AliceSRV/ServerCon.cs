@@ -17,6 +17,7 @@ namespace AliceSRV
         public ServerCon(UdpClient server_conect, IPEndPoint Server_adress)
         {
             this.server_conect = server_conect;
+            //server_conect.Client.ReceiveTimeout=2000;
             this.Server_adress = Server_adress;
         }
         

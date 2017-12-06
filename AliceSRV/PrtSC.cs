@@ -46,14 +46,14 @@ namespace AliceSRV
 
         public static void Update(Connection server1, IPEndPoint IP)
         {
-            _Get_new_screen(server1,IP);
+            _Get_new_screen(server1, IP);
 
 
         }
 
         public static void _Get_new_screen(Connection server1, IPEndPoint IP)
         {
-            
+
             List<byte[]> _update = new List<byte[]>();
             Image[] array = BaseTool.CutInToParts(PrtSC.GetPrtSC());
             server1.Send_mess(BaseTool.Convertbtst("update_data"), IP);
@@ -61,7 +61,7 @@ namespace AliceSRV
             {
                 int index = (int)i;
                 byte[] bitbyte = BaseTool.ConvertImageToByteArray(array[index]);
-                
+
                 //Thread.Sleep(1);
                 byte[] new_byte = new byte[bitbyte.Length + 1];
                 Array.Copy(bitbyte, 0, new_byte, 1, new_byte.Length - 1);
@@ -70,7 +70,7 @@ namespace AliceSRV
                 {
                     server1.Send_mess(new_byte, IP);
                     All_image[(int)i] = new_byte;
-                    Thread.Sleep(10);
+                    Thread.Sleep(20);
                 }
                 _update.Add(new_byte);
             }
@@ -82,34 +82,46 @@ namespace AliceSRV
         public static List<byte[]> CutInToParts(Connection server1, IPEndPoint IP)
         {
             All_image = new List<byte[]>();
-
+            //byte[] onliv=server1.Whait_recive_TRY_CATCH(ref IP);
             //server1.Send_mess(BaseTool.Convertbtst("[stop]"), IP);
             // server1.Send_mess(BaseTool.Convertbtst("start_PrtSc"), IP);
             //byte[] imagecomand = BaseTool.Convertbtst("[image_byte]");
-            Image[] array= BaseTool.CutInToParts(PrtSC.GetPrtSC());
-            for (byte i=0;i<array.Length;i++)
+            Image[] array = BaseTool.CutInToParts(PrtSC.GetPrtSC());
+            for (byte i = 0; i < array.Length; i++)
             {
                 int index = (int)i;
-                byte[] bitbyte =BaseTool.ConvertImageToByteArray(array[index]);
+                byte[] bitbyte = BaseTool.ConvertImageToByteArray(array[index]);
                 byte[] new_byte = new byte[bitbyte.Length + 1];
-                
-                Array.Copy(bitbyte, 0, new_byte, 1, new_byte.Length-1);
+
+                Array.Copy(bitbyte, 0, new_byte, 1, new_byte.Length - 1);
                 new_byte[0] = i;//добавили координату
                 All_image.Add(new_byte);
                 //byte[] withimagecomand = imagecomand.Concat(new_byte).ToArray();
                 server1.Send_mess(new_byte, IP);
-                
+                Thread.Sleep(50);
                 //server1.Send_mess(new_byte, IP);
-                Thread.Sleep(1);
-                string str_resp = BaseTool.Convertbtst(server1.Whait_recive());
-                if (str_resp=="OK")
+                
+
+                byte[] rec = server1.Whait_recive(ref IP);
+                string BAs = BaseTool.Convertbtst(rec);
+                while (BAs!="OKKKK")
                 {
-                   // Console.WriteLine((int)i + "---> OK");
+                    //server1.Send_mess(new_byte, IP);
+                    rec = server1.Whait_recive(ref IP);
+                    BAs = BaseTool.Convertbtst(rec);
                 }
+                //Thread.Sleep(10);
+
+                Console.Write(i);
+
             }
+            
+            
+
 
             return All_image;
         }
+
 
     }
 }

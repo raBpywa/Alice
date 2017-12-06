@@ -53,7 +53,18 @@ namespace AliceSRV
             return sd;
         }
 
-
+        public byte[] Whait_recive_TRY_CATCH(ref IPEndPoint iprec)
+        {
+            try
+            {
+                byte[] sd = servcon.server_conect.Receive(ref iprec);
+                return sd;
+            }
+            catch
+            {
+                return new byte[] { 0 };
+            }
+        }
         public void Send_mess(byte[] data)
         {
             servcon.server_conect.Send(data, data.Length, servcon.Server_adress);
@@ -85,6 +96,7 @@ namespace AliceSRV
             {
                 Thread.Sleep(10);
                 byte[] bt = server1.Whait_recive(ref iprem);
+                
                 string reciv = BaseTool.Convertbtst(bt);
                 string[] mas = BaseTool._GetArrSplit(bt);
                 if (mas[0] == "for_prey_connect")

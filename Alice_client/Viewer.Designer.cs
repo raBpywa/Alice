@@ -42,7 +42,9 @@
             this.pictureBox1.Size = new System.Drawing.Size(557, 531);
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
+            this.pictureBox1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.picture_MouseDown);
             this.pictureBox1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.flowLayoutPanel1_MouseMove);
+            this.pictureBox1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.picture_MouseUP);
             // 
             // flowLayoutPanel1
             // 
@@ -58,9 +60,9 @@
             // 
             this.button1.Location = new System.Drawing.Point(170, 0);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(37, 29);
+            this.button1.Size = new System.Drawing.Size(57, 29);
             this.button1.TabIndex = 2;
-            this.button1.Text = "button1";
+            this.button1.Text = "MOUSE";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
@@ -75,6 +77,8 @@
             this.Text = "Viewer";
             this.Load += new System.EventHandler(this.Viewer_Load);
             this.SizeChanged += new System.EventHandler(this.Viewer_SizeChanged);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Viewer_KeyDown);
+            this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Viewer_KeyPress_1);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.flowLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);

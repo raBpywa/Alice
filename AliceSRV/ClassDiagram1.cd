@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="AliceSRV.BaseTool">
+    <Position X="6.75" Y="0.5" Width="1.5" />
+    <NestedTypes>
+      <Enum Name="AliceSRV.BaseTool.IPorPORT" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>BaseTool.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAAABAAAAAAAAAAkAAIAAAAACAEAAAAgAA=</HashCode>
+      <FileName>BaseTool.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AliceSRV.Commands">
+    <Position X="8.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAAAAAAAAAAAAAIAAAAAAAAAgAIAAAAAAACAAAA=</HashCode>
+      <FileName>Commands.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AliceSRV.Connection">
+    <Position X="10.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAghAAAAAAAAAAAAAAAABEEQAAAAACAAAAEACAA=</HashCode>
+      <FileName>Connection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AliceSRV.MouseHook">
+    <Position X="6.75" Y="3.25" Width="1.5" />
+    <NestedTypes>
+      <Enum Name="AliceSRV.MouseHook.MouseFlags" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>MouseHook.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAACCAAA=</HashCode>
+      <FileName>MouseHook.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AliceSRV.Prey">
+    <Position X="8.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAgAIAAAAA=</HashCode>
+      <FileName>Prey.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AliceSRV.Program">
+    <Position X="10.75" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAECAA=</HashCode>
+      <FileName>Program.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AliceSRV.PrtSC">
+    <Position X="6.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAgAAAAAABAAAAAAAAAAAEAAABAAAAAAAAAgAAAA=</HashCode>
+      <FileName>PrtSC.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AliceSRV.SendUDP">
+    <Position X="8.75" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAABAAAAAAAABAAAQAAAAAAAAAAAAAAAQAAA=</HashCode>
+      <FileName>SendUDP.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AliceSRV.ServerCon">
+    <Position X="10.75" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACA=</HashCode>
+      <FileName>ServerCon.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

@@ -37,7 +37,7 @@
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(3, 3);
+            this.pictureBox1.Location = new System.Drawing.Point(3, 34);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(557, 531);
             this.pictureBox1.TabIndex = 0;
@@ -49,18 +49,19 @@
             // flowLayoutPanel1
             // 
             this.flowLayoutPanel1.AutoScroll = true;
+            this.flowLayoutPanel1.Controls.Add(this.button1);
             this.flowLayoutPanel1.Controls.Add(this.pictureBox1);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(584, 561);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(570, 569);
             this.flowLayoutPanel1.TabIndex = 1;
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(170, 0);
+            this.button1.Location = new System.Drawing.Point(3, 3);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(57, 29);
+            this.button1.Size = new System.Drawing.Size(54, 25);
             this.button1.TabIndex = 2;
             this.button1.Text = "MOUSE";
             this.button1.UseVisualStyleBackColor = true;
@@ -70,11 +71,10 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(584, 561);
-            this.Controls.Add(this.button1);
+            this.ClientSize = new System.Drawing.Size(570, 569);
             this.Controls.Add(this.flowLayoutPanel1);
             this.Name = "Viewer";
-            this.Text = "Viewer";
+            this.Text = "Рабочий стол";
             this.Load += new System.EventHandler(this.Viewer_Load);
             this.SizeChanged += new System.EventHandler(this.Viewer_SizeChanged);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Viewer_KeyDown);

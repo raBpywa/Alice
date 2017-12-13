@@ -37,15 +37,28 @@ namespace Alice_client
             IPEndPoint _aliceSRV = null;
 
             byte[] ping1 = Connection.server1.Whait_recive(ref _aliceSRV);
-            string ggg = BaseTool.Convertbtst(ping1);
-            Command._CheakCommand(ping1, _aliceSRV);
+            if (ping1.Length < 100)
+            {
+                string ggg = BaseTool.Convertbtst(ping1);
+                Command._CheakCommand(ping1, _aliceSRV);
                 byte[] ping2 = Connection.server1.Whait_recive(ref _aliceSRV);
+            }
             
             for (int i=0;i<100;i++)
             { 
 
                 Thread.Sleep(10);
-                byte[]  on= Connection.server1.Whait_recive(ref _aliceSRV);
+                byte[] on = new byte[0];
+                if (ping1.Length > 100)
+                {
+                    on = ping1;
+                    ping1 = new byte[0];
+                }
+                else
+                {
+                    on=Connection.server1.Whait_recive(ref _aliceSRV);
+                    Console.Write(i);
+                }
               
 
                 if (on.Length > 1)

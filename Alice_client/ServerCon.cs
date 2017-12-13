@@ -17,7 +17,7 @@ namespace Alice_client
         public ServerCon(UdpClient server_conect, IPEndPoint Server_adress)
         {
             this.server_conect = server_conect;
-           // this.server_conect.Client.ReceiveTimeout = 100;
+            this.server_conect.Client.ReceiveTimeout =40000;
             this.Server_adress = Server_adress;
         }
         

@@ -71,7 +71,7 @@ namespace Alice_client
         public static void for_ping(string[] commands,IPEndPoint _aliceSRV)
         {
            
-            Connection.server1.Send_mess("[OK][" + User._My._Login + "][connect]", _aliceSRV);
+            Connection.server1.Send_mess("[OK][" + User._My._Login + "][connect][]", _aliceSRV);
            
         }
         public static void get_all_sacrifice(string[] commands)

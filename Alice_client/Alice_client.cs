@@ -34,10 +34,10 @@ namespace Alice_client
             listView1.Columns.Add("Token");
             listView1.Columns.Add("Online");
             listView1.GridLines = true;
-
+            Connection.IpSERVER = Connection.server1.servcon.Server_adress;
             label4.Text = User._My._Login;
             RefreshListview( User._My, Connection.server1);
-
+           
             button2.Enabled = true;
             button3.Enabled = true;
            
@@ -90,9 +90,10 @@ namespace Alice_client
         public static Thread th;
         public void Start_recive()
         {
-            th = new Thread(startThread);
-            th.Start();
             
+                th = new Thread(startThread);
+                th.Start();
+           
         }
 
         public void startThread()
@@ -100,19 +101,22 @@ namespace Alice_client
            // var s = Task.Run(() => {
                 while (true)
                 {
-
+                try
+                {
                     if (_status)
                     {
-                    IPEndPoint _aliceSRV = null;
-                    byte[] rec = Connection.server1.Whait_recive(ref _aliceSRV);
-                    string str_rec = BaseTool.Convertbtst(rec);
-                    Console.WriteLine("<====== "+_aliceSRV.ToString()+"  "+ str_rec);
-                    Command._CheakCommand(rec,_aliceSRV);
+                        IPEndPoint _aliceSRV = null;
+                        byte[] rec = Connection.server1.Whait_recive(ref _aliceSRV);
+                        string str_rec = BaseTool.Convertbtst(rec);
+                        Console.WriteLine("<====== " + _aliceSRV.ToString() + "  " + str_rec);
+                        Command._CheakCommand(rec, _aliceSRV);
                     }
-                    else
-                    {
-                    break;
-                    }
+                   
+                }
+                catch
+                {
+                    Console.WriteLine("Ожидание....");
+                }
                 }
                 // string test = BaseTool.Convertbtst(Connection.server1.Whait_recive());
                 // Console.WriteLine(test);

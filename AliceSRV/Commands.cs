@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Net;
+using System.Threading;
 
 namespace AliceSRV
 {
@@ -25,6 +27,29 @@ namespace AliceSRV
 
                 case "key_press":
                     Key_Press(cmd);
+                    break;
+                case "stop_watching":
+                    Stop_Watching();
+                    break;
+                case "OK":
+                    Start_Watching();
+                    break;
+                case "for_prey_connect":
+                    ForPreyConnect(cmd);
+                    break;
+                case "OKKKK":
+                    Bas();
+                    break;
+                case "NO":
+                    BasMInus();
+                    break;
+                case "change_resolution":
+                    Change_resolution(cmd[1]);
+                    break;
+                case "change_part":
+                    Change_part(cmd[1]);
+                    break;
+                default:
                     break;
             }
         }
@@ -48,6 +73,52 @@ namespace AliceSRV
         public static void Key_Press(string[] cmd)
         {
             SendKeys.SendWait(cmd[1]);
+        }
+        public static void Stop_Watching()
+        {
+            WhaitAllData.stopWatch = true;
+        }
+        public static void Start_Watching()
+        {
+            WhaitAllData.startWatch = true;
+            // SendKeys.SendWait(cmd[1]);
+        }
+        public static void Bas()
+        {
+            WhaitAllData.BAsNum++;
+            WhaitAllData.BAs = true;
+        }
+        public static void BasMInus()
+        {
+            
+            WhaitAllData.NoError = true;
+        }
+        public static void ForPreyConnect(string[] cmd)
+        {
+            for (int i = 0; i < 2; i++)
+            {
+                IPAddress ip = IPAddress.Parse(BaseTool._get_ip_or_port(cmd[1], BaseTool.IPorPORT.IP));
+                IPEndPoint remote = new IPEndPoint(ip, Convert.ToInt32(BaseTool._get_ip_or_port(cmd[1], BaseTool.IPorPORT.PORT)));
+                Program.server1.Send_mess(BaseTool.Convertbtst("[ping]"), remote);
+                WhaitAllData.Ip = remote;
+                WhaitAllData.ForPreyConnect = true;
+                //Thread.Sleep(10);
+            }
+        }
+
+        public static void Change_resolution(string resolution)
+        {
+            Resolution.SetResolution(resolution);
+        }
+        public static void Change_part(string part)
+        {
+            WhaitAllData.Updatedata = true;
+            Resolution.SetPart(Convert.ToInt32(part));
+            Console.WriteLine(Resolution.rowlenght);
+            //WhaitAllData.stopWatch = true;
+            WhaitAllData.restartWatch = false;
+            PrtSC.AllImageUpdatePart(Program.server1, WhaitAllData.Ip);
+            WhaitAllData.Updatedata = false;
         }
     }
 }

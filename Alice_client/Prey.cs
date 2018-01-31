@@ -34,7 +34,7 @@ namespace Alice_client
         {
             string _comm = _my.dataToString() + "[get_all_sacrifice]";
             Console.WriteLine("====> " + _comm);
-            server1.Send_mess(BaseTool.Convertbtst(_comm));
+            server1.Send_mess(BaseTool.Convertbtst(_comm), Connection.IpSERVER);
             //byte[] anyrec = server1.Whait_recive();
         }
 

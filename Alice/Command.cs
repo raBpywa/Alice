@@ -27,11 +27,11 @@ namespace Alice_server
                     _RegistrNewPrey(mas_com, remoteEP, AllPrey);
                     break;
                 case "prey_online":
-                    _ForPreyOnline(mas_com, remoteEP, AllPrey);
+                    _ForPreyOnline(mas_com, remoteEP);
                     break;
 
                 case "append_prey":
-                    _AppendPrey(mas_com, remoteEP,AllPlayer, AllPrey);
+                    _AppendPrey(mas_com, remoteEP,AllPlayer);
                     break;
                 case "need_prey":
                     _NeedPrey(mas_com, remoteEP, AllPrey);
@@ -99,7 +99,7 @@ namespace Alice_server
             else
                 return false;
         }
-        private static bool _ComparePrey(Prey _baseuser, Prey _client)
+        public static bool _ComparePrey(Prey _baseuser, Prey _client)
         {
             if (_baseuser.Name_sacrifice == _client.Name_sacrifice && _baseuser.Token_sacrifice == _client.Token_sacrifice)
                 return true;
@@ -117,21 +117,27 @@ namespace Alice_server
             AllPrey.Save(_prey.Name_sacrifice, _prey.Token_sacrifice, remoteEP.Address.ToString(), remoteEP.Port.ToString());
         }
 
-        private static void _ForPreyOnline(string[] str_com, IPEndPoint remoteEP, AllPrey AllPrey)
+        private static void _ForPreyOnline(string[] str_com, IPEndPoint remoteEP)
         {
             Prey _online = new Prey(remoteEP.Address.ToString(), remoteEP.Port, str_com[1], str_com[2]);
-            foreach (var _prey in AllPrey.AllPrey_database)
+           
+            for (int i = 0; i < AllPrey.AllPrey_database.Count; i++)
             {
-                if (_ComparePrey(_prey, _online))
+                if (_ComparePrey(AllPrey.AllPrey_database[i], _online))
                 {
-                    _prey.online = true;
-                    _prey.ip = remoteEP;
-                    Console.WriteLine(_prey.ip.Address + ":" + _prey.ip.Port + "  " + _prey.Name_sacrifice + "  online");
+                
+                    AllPrey.AllPrey_database[i].online = true;
+                    AllPrey.AllPrey_database[i].ip = remoteEP;
+                    AllPrey.AllPrey_database[i].timeonline = DateTime.Now;
+                    Console.WriteLine(AllPrey.AllPrey_database[i].ip.Address + ":" + AllPrey.AllPrey_database[i].ip.Port + "  " + AllPrey.AllPrey_database[i].Name_sacrifice + "  " + AllPrey.AllPrey_database[i].timeonline+" online");
+                    Console.WriteLine(" 1  " + AllPrey.AllPrey_database[i].Token_sacrifice + " " + AllPrey.AllPrey_database[i].online);
                 }
+               
             }
+            
         }
 
-        private static void _AppendPrey(string[] str_com, IPEndPoint remoteEP, AllUser AllPlayer, AllPrey AllPrey)
+        private static void _AppendPrey(string[] str_com, IPEndPoint remoteEP, AllUser AllPlayer)
         {
             UserClient _one_user = new UserClient(str_com[4], str_com[5], Convert.ToInt32(str_com[3]));
             Prey _one_prey = new Prey(str_com[1], str_com[2]);

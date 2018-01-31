@@ -18,14 +18,11 @@ namespace Alice_server
         private static int localPort = 19999;
         static void Main(string[] args)
         {
-
             AllUser AllPlayer = new AllUser();
             AllPrey AllPrey = new AllPrey();
             ReceiverUDP.Receiver(localPort, AllPlayer, AllPrey);
+
         }
-
-
-
     }
 }
 

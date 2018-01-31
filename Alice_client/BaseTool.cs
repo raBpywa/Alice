@@ -58,15 +58,15 @@ namespace Alice_client
         public static Bitmap _Pullimage(List<PartsImage> ForPullImage)
         {
             Bitmap test = ForPullImage[0]._real_image;
-            int width = test.Width * 10;
-            int height = test.Height * 10;
+            int width = test.Width * Resolution.rowlenght;
+            int height = test.Height * Resolution.rowlenght;
             Bitmap bi = new Bitmap(width, height);
 
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < Resolution.rowlenght; i++)
             {
-                for (int j = 0; j < 10; j++)
+                for (int j = 0; j < Resolution.rowlenght; j++)
                 {
-                    var index = i * 10 + j;
+                    var index = i * Resolution.rowlenght + j;
 
                     var graphics = Graphics.FromImage(bi);
                     graphics.DrawImage(ForPullImage[index]._real_image, new Rectangle(
@@ -116,6 +116,55 @@ namespace Alice_client
             Array.Copy(mas, 1, new_mas, 0, new_mas.Length);
             return new_mas;
         }
+        public static List<byte[]> CutInToParts(Bitmap image)
+        {
+            List<byte[]> allbitmspbyte = new List<byte[]>();
+            //image.Save("final", ImageFormat.Png);
+            int width = image.Size.Width / Resolution.rowlenght;
+            int height = image.Size.Height / Resolution.rowlenght;
+            var imagearray = new Bitmap[Resolution.part];
+            for (int i = 0; i < Resolution.rowlenght; i++)
+            {
+                for (int j = 0; j < Resolution.rowlenght; j++)
+                {
+                    var index = i * Resolution.rowlenght + j;
+                    imagearray[index] = new Bitmap(width, height);
+                    //imagearray[index].Save("image", ImageFormat.Png);
+                    try
+                    {
+                        var graphics = Graphics.FromImage(imagearray[index]);
+                        graphics.DrawImage(image, new Rectangle(0, 0, width, height), new Rectangle(i * width, j * height, width, height), GraphicsUnit.Pixel);
+                        graphics.Dispose();
+                        allbitmspbyte.Add(ImageToByte2(image));
 
+                    }
+                    catch
+                    {
+                        imagearray = new Bitmap[Resolution.part];
+                        i = 0; j = 0;
+                        allbitmspbyte = new List<byte[]>();
+                    }
+                    //imagearray[index].Save("image2Jpeg", ImageFormat.Jpeg);
+                    //imagearray[index].Save("image2PNG", ImageFormat.Png);
+                    ////imagearray[index] = imagearray[index].Clone(new Rectangle(0, 0, width, height), PixelFormat.Format8bppIndexed);
+                    //imagearray[index].Save("image3", ImageFormat.Png);
+                    //imagearray[index].Save(index + ".bmp");
+                }
+            }
+
+            //Pull(imagearray);  
+            return allbitmspbyte;
+        }
+
+        public static byte[] ImageToByte2(Image img)
+        {
+            using (var stream = new MemoryStream())
+            {
+                img.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
+                byte[] index = new byte[stream.Length + 1];
+                Array.Copy(stream.ToArray(), 0, index, 1, stream.Length);
+                return index;
+            }
+        }
     }
 }

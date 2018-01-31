@@ -13,7 +13,7 @@ namespace Alice_server
         public string Name_sacrifice { get; set; }
         public string Token_sacrifice { get; set; }
         public bool online { get; set; }
-
+        public DateTime timeonline { get; set; }
         public Prey(string IP_sacrifice, int IP_Port, string Name_sacrifice, string Token_sacrifice)
         {
             IPAddress ip_adr =IPAddress.Parse( IP_sacrifice);

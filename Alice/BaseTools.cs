@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Drawing;
+using System.Threading;
 
 namespace Alice_server
 {
@@ -75,6 +76,23 @@ namespace Alice_server
 
             var finalString = new String(stringChars);
             return finalString;
+        }
+
+        public static void _Cheak_online_Prey(AllPrey AllPrey)
+        {
+            while (true)
+            {
+                for (int i = 0; i < AllPrey.AllPrey_database.Count; i++)
+                {
+                    if (AllPrey.AllPrey_database[i].timeonline> DateTime.Now.AddSeconds(-25))
+                    { AllPrey.AllPrey_database[i].online = true; /*Console.WriteLine(" yes " + AllPrey.AllPrey_database[i].Token_sacrifice +" "+ AllPrey.AllPrey_database[i].timeonline +" "+ DateTime.Now.AddSeconds(25));*/ }
+                    else
+                     AllPrey.AllPrey_database[i].online = false;
+                }
+
+                Thread.Sleep(3000);
+            }
+
         }
 
     }

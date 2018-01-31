@@ -11,6 +11,8 @@ namespace Alice_client
 {
     static class ConnectPrey
     {
+        public static string resolution { get; set; }
+
         public static void Connect(User _my, Connection server1, int num_sacrifice)
         {
             string comand = "[need_prey][" +

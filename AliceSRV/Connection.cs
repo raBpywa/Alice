@@ -42,7 +42,9 @@ namespace AliceSRV
         public byte[]  Whait_recive()
         {
             IPEndPoint iprec = servcon.Server_adress;
+            
             byte[] sd = servcon.server_conect.Receive(ref iprec);
+            WhaitAllData.Ip = iprec;
             Console.WriteLine(BaseTool.Convertbtst(sd));
             return sd;
         }

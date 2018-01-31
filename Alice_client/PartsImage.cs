@@ -11,7 +11,7 @@ namespace Alice_client
     {
        public int number { get; set; }
        public Bitmap _real_image { get; set; }
-
+       
 
         public PartsImage(int number, byte[] _real_byte_image)
         {

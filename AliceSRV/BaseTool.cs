@@ -4,7 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
+
 
 namespace AliceSRV
 {
@@ -61,22 +63,34 @@ namespace AliceSRV
             return finalString;
         }
 
-        public static Image[] CutInToParts(Bitmap image)
+        public static Bitmap[] CutInToParts(Bitmap image)
         {
-            int width = image.Size.Width / 10;
-            int height = image.Size.Height / 10;
-            var imagearray = new Image[100];
-            for(int i=0;i<10;i++)
+            //image.Save("final", ImageFormat.Png);
+            int width = image.Size.Width / Resolution.rowlenght;
+            int height = image.Size.Height / Resolution.rowlenght;
+            var imagearray = new Bitmap[Resolution.part];
+            for(int i=0;i < Resolution.rowlenght; i++)
             {
-                for (int j=0;j<10;j++)
+                for (int j=0;j < Resolution.rowlenght; j++)
                 {
-                    var index = i * 10 + j;
+                    var index = i * Resolution.rowlenght + j;
                     imagearray[index] = new Bitmap(width, height);
-                    var graphics = Graphics.FromImage(imagearray[index]);
-                    graphics.DrawImage(image, new Rectangle(0, 0, width, height),new Rectangle(i*width,j*height,width,height),GraphicsUnit.Pixel);
-                    graphics.Dispose();
-
-
+                    //imagearray[index].Save("image", ImageFormat.Png);
+                    try
+                    {
+                        var graphics = Graphics.FromImage(imagearray[index]);
+                        graphics.DrawImage(image, new Rectangle(0, 0, width, height), new Rectangle(i * width, j * height, width, height), GraphicsUnit.Pixel);
+                        graphics.Dispose();
+                    }
+                    catch
+                    {
+                        imagearray = new Bitmap[Resolution.part];
+                        i = 0;j = 0;
+                    }
+                    //imagearray[index].Save("image2Jpeg", ImageFormat.Jpeg);
+                    //imagearray[index].Save("image2PNG", ImageFormat.Png);
+                    ////imagearray[index] = imagearray[index].Clone(new Rectangle(0, 0, width, height), PixelFormat.Format8bppIndexed);
+                    //imagearray[index].Save("image3", ImageFormat.Png);
                     //imagearray[index].Save(index + ".bmp");
                 }
             }
@@ -86,15 +100,15 @@ namespace AliceSRV
 
         public static void Pull(Image[] arrray)
         {
-            int width = arrray[0].Width*10;
-            int height = arrray[0].Height * 10;
+            int width = arrray[0].Width * Resolution.rowlenght;
+            int height = arrray[0].Height * Resolution.rowlenght;
             Bitmap bi = new Bitmap(width, height);
 
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < Resolution.rowlenght; i++)
             {
-                for (int j = 0; j < 10; j++)
+                for (int j = 0; j < Resolution.rowlenght; j++)
                 {
-                    var index = i * 10 + j;
+                    var index = i * Resolution.rowlenght + j;
                     
                     var graphics = Graphics.FromImage(bi);
                     graphics.DrawImage(arrray[index],new Rectangle(i * arrray[index].Width, j * arrray[index].Height, arrray[index].Width, arrray[index].Height));
@@ -103,7 +117,7 @@ namespace AliceSRV
                 }
             }
 
-            bi.Save("bi.bmp");
+          //  bi.Save("bi.bmp");
         }
 
 
@@ -111,7 +125,7 @@ namespace AliceSRV
         {
             List<byte[]> alllistbyte = new List<byte[]>();
             MemoryStream stream = new MemoryStream();
-            bitmap.Save(stream, System.Drawing.Imaging.ImageFormat.Jpeg);
+            bitmap.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
             byte[] allbytes = stream.ToArray();
             int coordnumber = 0;
             for (int i = 0; i < allbytes.Length; i++)
@@ -140,9 +154,41 @@ namespace AliceSRV
 
            
             MemoryStream stream = new MemoryStream();
-            bitmap.Save(stream, System.Drawing.Imaging.ImageFormat.Jpeg);
+            bitmap.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
             byte[] allbytes = stream.ToArray();
             return allbytes; 
+        }
+        public static Bitmap CropImage(Bitmap source, Rectangle section)
+        {
+            // An empty bitmap which will hold the cropped image
+            Bitmap bmp = new Bitmap(section.Width - section.X, section.Height - section.Y);
+
+            Graphics g = Graphics.FromImage(bmp);
+
+            // Draw the given area (section) of the source image
+            // at location 0,0 on the empty bitmap (bmp)
+            g.DrawImage(source, 0,0, section, GraphicsUnit.Pixel);
+
+            return bmp;
+        }
+
+        public static Bitmap ResizeImage(Bitmap imgToResize, Size size)
+        {
+            try
+            {
+                Bitmap b = new Bitmap(size.Width, size.Height);
+                using (Graphics g = Graphics.FromImage((Image)b))
+                {
+                    g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+                    g.DrawImage(imgToResize, 0, 0, size.Width, size.Height);
+                }
+                return b;
+            }
+            catch
+            {
+                Console.WriteLine("Bitmap could not be resized");
+                return imgToResize;
+            }
         }
     }
 }

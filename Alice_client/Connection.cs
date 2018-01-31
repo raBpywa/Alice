@@ -13,7 +13,7 @@ namespace Alice_client
         int count_try = 0;
 
        public static Connection server1 { get; set; }
-
+        public static IPEndPoint IpSERVER { get; set; }
         public static IPEndPoint   lastIp { get; set; }
 
         public bool isConnect=false;

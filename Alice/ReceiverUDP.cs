@@ -16,10 +16,8 @@ namespace Alice_server
         {
             Console.WriteLine("Whait connect\n");
             udpServer = new UdpClient(localPort);
-            byte[] ggg = BaseTools.Convertbtst("sdad");
-            // IPAddress ip = IPAddress.Parse("192.168.100.10");    //только если сервер за NAT
-            // IPEndPoint ep = new IPEndPoint(ip, 19999);           //только если сервер за NAT
-            // udpServer.Send(ggg, ggg.Length, ep);                  //только если сервер за NAT
+            var outer = Task.Factory.StartNew(() => BaseTools._Cheak_online_Prey(AllPrey));
+
             while (true)
             {
                 var remoteEP = new IPEndPoint(IPAddress.Any, 19999);

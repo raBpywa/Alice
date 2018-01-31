@@ -10,7 +10,7 @@ namespace Alice_server
 {
     class AllPrey
     {
-        public List<Prey> AllPrey_database { get; set; }
+        public static List<Prey> AllPrey_database { get; set; }
         public XDocument xdoc { get; set; }
 
         public string _Patch = "preydatabase.xml";

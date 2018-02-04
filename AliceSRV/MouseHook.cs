@@ -18,17 +18,11 @@ namespace AliceSRV
             Move = 0x0001, LeftDown = 0x0002, LeftUp = 0x0004, RightDown = 0x0008,
             RightUp = 0x0010, Absolute = 0x8000
         };
-
-
-
-
-
+        
         public static void Mouse_Move(int x,int y)
         {
-            //и использование - клик правой примерно в центре экрана
-           
-
-            mouse_event(MouseFlags.Absolute | MouseFlags.Move, x*50, y*100, 0, UIntPtr.Zero);
+            x = x * 65535/ Resolution.weight; y =y*65535/ Resolution.height;
+            mouse_event(MouseFlags.Absolute | MouseFlags.Move, x, y, 0, UIntPtr.Zero);
            // mouse_event(MouseFlags.Absolute | MouseFlags.RightDown, x, y, 0, UIntPtr.Zero);
            // mouse_event(MouseFlags.Absolute | MouseFlags.RightUp, x, y, 0, UIntPtr.Zero);
         }

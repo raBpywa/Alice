@@ -26,15 +26,17 @@ namespace Alice_client
             pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
             flowLayoutPanel1.Controls.Add(pictureBox1);
             label1.Text = Resolution.part.ToString();
+            label2.Text = Resolution.speed.ToString();
+            label3.Text = Resolution.timeSend.ToString();
         }
         IPEndPoint _PreySRV = null;
 
         private void Start(int index)
         {
-             allbyte = new List<byte[]>();
+            allbyte = new List<byte[]>();
             // comboBox1.SelectedItem = 0;
-            ConnectPrey.resolution = comboBox1.GetItemText( comboBox1.Items[0]);
-          // MessageBox.Show( comboBox1.SelectedText);
+            ConnectPrey.resolution = comboBox1.GetItemText(comboBox1.Items[0]);
+            // MessageBox.Show( comboBox1.SelectedText);
 
             Command._ConnectPrey(index);
             this.Activate();
@@ -47,9 +49,9 @@ namespace Alice_client
                 Command._CheakCommand(ping1, _aliceSRV);
                 byte[] ping2 = Connection.server1.Whait_recive(ref _aliceSRV);
             }
-            
-            for (int i=0;i<Resolution.part;i++)
-            { 
+
+            for (int i = 0; i < Resolution.part; i++)
+            {
 
                 Thread.Sleep(10);
                 byte[] on = new byte[0];
@@ -60,72 +62,79 @@ namespace Alice_client
                 }
                 else
                 {
-                    while (true) {
+                    while (true)
+                    {
                         try
                         {
                             on = Connection.server1.Whait_recive(ref _aliceSRV);
-                            Console.Write(i);
+                            Console.Write(allbyte.Count);
                             break;
                         }
                         catch
                         {
-                          
+
                             Connection.server1.Send_mess(BaseTool.Convertbtst("NO"), _aliceSRV);
                         }
-                        
+
                     }
                 }
-             
+
                 if (on.Length > 1)
                 {
                     if (on[0].Equals((byte)allbyte.Count))
                     {
                         allbyte.Add(on);
-                        
+
                         Connection.server1.Send_mess(BaseTool.Convertbtst("OKKKK"), _aliceSRV);
                         _PreySRV = _aliceSRV;
                     }
                     else
                     {
+                        Connection.server1.Send_mess(BaseTool.Convertbtst("NO"), _aliceSRV);
                         i = allbyte.Count;
                     }
-                }
-               //else
+
+                    if (on[0] < (byte)allbyte.Count)
+                    {
+                        Connection.server1.Send_mess(BaseTool.Convertbtst("OKKKK"), _aliceSRV);
+                    }
+                    //else
                     //Connection.server1.Send_mess(BaseTool.Convertbtst("NO"), _aliceSRV);
 
 
+                }
+                //Start_recive();
+                // IPEndPoint _aliceSRV = null;
+                //allbyte = new List<byte[]>();
+                //for (int i = 0; i < 100; i++)
+                //{
+                //    byte[] on = Connection.server1.Whait_recive(ref _aliceSRV);
+                //    if (on[0].Equals((byte)i))
+                //    {
+                //        allbyte.Add(on);
+                //        Connection.server1.Send_mess(BaseTool.Convertbtst("OK"), _aliceSRV);
+                //    }
+                //    else
+                //    {
+
+                //    }
+                //}
+
+                //Bitmap _see = BaseTool._Pullimage(BaseTool._GetList(allbyte));
+                //see(_see);
             }
-            //Start_recive();
-            // IPEndPoint _aliceSRV = null;
-            //allbyte = new List<byte[]>();
-            //for (int i = 0; i < 100; i++)
-            //{
-            //    byte[] on = Connection.server1.Whait_recive(ref _aliceSRV);
-            //    if (on[0].Equals((byte)i))
-            //    {
-            //        allbyte.Add(on);
-            //        Connection.server1.Send_mess(BaseTool.Convertbtst("OK"), _aliceSRV);
-            //    }
-            //    else
-            //    {
-
-            //    }
-            //}
-
-            //Bitmap _see = BaseTool._Pullimage(BaseTool._GetList(allbyte));
-            //see(_see);
             var t = Task.Run(() =>
             {
 
                 _update_dataWithoutSync();
-                
-                
+
+
             });
 
 
         }
-      
 
+        
 
         public void _UpdateDAta()
         {
@@ -252,6 +261,7 @@ namespace Alice_client
            
             pictureBox1.Image = bmp;
             pictureBox1.Refresh();
+            flowLayoutPanel1.Refresh();
            
         }
 
@@ -276,9 +286,9 @@ namespace Alice_client
             {
                 if (whait_send > 3)
                 {
-
-                    int _mouse_X = (Cursor.Position.X - this.Location.X)-10;
-                    int _mouse_Y = (Cursor.Position.Y - this.Location.Y)-30;
+                    groupBox1.Text = (e.X )+ " " + (e.Y);
+                    int _mouse_X = (e.X);
+                    int _mouse_Y = (e.Y);
                     Console.WriteLine(_mouse_X + " " + _mouse_Y);
                     byte[] mousecoord = BaseTool.Convertbtst("[mouse_move][" + _mouse_X + "][" + _mouse_Y + "]");
                     Connection.server1.Send_mess(mousecoord, _PreySRV);
@@ -378,7 +388,22 @@ namespace Alice_client
 
         private void trackBar2_ValueChanged(object sender, EventArgs e)
         {
-            label2.Text = (trackBar2.Value* 10.0).ToString();
+            
+            label2.Text = (trackBar2.Value* 100.0/2).ToString();
+            Resolution.SetSpeed((int)(trackBar2.Value *100.0 / 2));
+            //label2.Text = (trackBar2.Value * 10.0).ToString();
+            byte[] command = BaseTool.Convertbtst("[change_speed][" + Resolution.speed + "]");
+            Connection.server1.Send_mess(command, _PreySRV);
+        }
+
+        private void trackBar3_ValueChanged(object sender, EventArgs e)
+        {
+            
+           // trackBar3.Value = ((int)Math.Round(trackBar3.Value * 100.0 / 2));
+            Resolution.SetTimeSendd(((int)(trackBar3.Value)));
+            byte[] command = BaseTool.Convertbtst("[change_timesend][" + Resolution.timeSend + "]");
+            Connection.server1.Send_mess(command, _PreySRV);
+            label3.Text = Resolution.timeSend.ToString();
         }
     }
 }

@@ -49,6 +49,12 @@ namespace AliceSRV
                 case "change_part":
                     Change_part(cmd[1]);
                     break;
+                case "change_speed":
+                    change_speed(cmd[1]);
+                    break;
+                case "change_timesend":
+                    change_timesend(cmd[1]);
+                    break;
                 default:
                     break;
             }
@@ -110,6 +116,10 @@ namespace AliceSRV
         {
             Resolution.SetResolution(resolution);
         }
+        public static void change_speed(string resolution)
+        {
+            Resolution.SetSpeed(Convert.ToInt32( resolution));
+        }
         public static void Change_part(string part)
         {
             WhaitAllData.Updatedata = true;
@@ -119,6 +129,10 @@ namespace AliceSRV
             WhaitAllData.restartWatch = false;
             PrtSC.AllImageUpdatePart(Program.server1, WhaitAllData.Ip);
             WhaitAllData.Updatedata = false;
+        }
+        public static void change_timesend(string  timesend)
+        {
+            Resolution.SetTimeSendd(Convert.ToInt32( timesend));
         }
     }
 }

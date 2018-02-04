@@ -70,7 +70,7 @@ namespace AliceSRV
                         //WhaitAllData.Updatedata = true;
                         PrtSC.Update(server1, ipclient);
                         //WhaitAllData.Updatedata = false; 
-                        Thread.Sleep(10);
+                        Thread.Sleep(Resolution.speed);
 
                     }
 

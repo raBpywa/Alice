@@ -138,10 +138,8 @@ namespace Alice_client
 
         public void _UpdateDAta()
         {
-
             allbyte = BaseTool.CutInToParts((Bitmap)pictureBox1.Image);
-           
-        }
+           }
 
 
 

@@ -24,7 +24,7 @@ namespace AliceSRV
             //    testRFB.Start(j++);
             //}
             Prey _My;
-             server1 = new Connection("195.128.124.171", 19999);//("195.128.124.171", 19999);
+            server1 = new Connection("195.128.124.171", 19999);//("195.128.124.171", 19999);
             if (server1.isConnect)
             {
                 _My = new Prey(server1);
@@ -35,9 +35,9 @@ namespace AliceSRV
                 // PrtSC.StartPrtSC(server1, ipclient);
                 Start_recive();
 
-
-                while (true)
+        while (true)
                 {
+
                     while (!WhaitAllData.ForPreyConnect)
                     {
                         //string mess=BaseTool.Convertbtst(  server1.Whait_recive());
@@ -69,6 +69,7 @@ namespace AliceSRV
 
                         //WhaitAllData.Updatedata = true;
                         PrtSC.Update(server1, ipclient);
+
                         //WhaitAllData.Updatedata = false; 
                         Thread.Sleep(Resolution.speed);
 
@@ -77,7 +78,6 @@ namespace AliceSRV
                     WhaitAllData.stopWatch = false;
                     WhaitAllData.startWatch = false;
                     WhaitAllData.ForPreyConnect = false;
-
                 }
             }
             //ожидаем ответа от клиента
@@ -87,10 +87,8 @@ namespace AliceSRV
                 Console.WriteLine("Сервер недоступен!");
                 Console.ReadLine();
             }
-            }
-        
+        }
 
-        
 
         public static void Start_recive()
         {
@@ -99,10 +97,10 @@ namespace AliceSRV
                 while (true)
                 {
                     byte[] resp = server1.Whait_recive();
-                    Commands._Start(BaseTool._GetArrSplit( BaseTool.Convertbtst(resp)));
+                    Commands._Start(BaseTool._GetArrSplit(BaseTool.Convertbtst(resp)));
                 }
             });
         }
-                
+
     }
 }

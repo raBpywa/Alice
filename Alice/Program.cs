@@ -7,36 +7,22 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
 
+
 namespace Alice_server
 {
     class Program
     {
+
+        private static IPAddress remoteIPAddress;
+        private static int remotePort;
+        private static int localPort = 19999;
         static void Main(string[] args)
         {
+            AllUser AllPlayer = new AllUser();
+            AllPrey AllPrey = new AllPrey();
+            ReceiverUDP.Receiver(localPort, AllPlayer, AllPrey);
 
-            AServer _aServer = new AServer(1999,100);
-
-            Thread start_send = new Thread(_aServer.Start);
-            start_send.Start();
-            string input="";
-          
-            while (_aServer.isStart)
-            {
-                  
-                  System.Windows.Forms.Application.DoEvents();
-                do
-                {
-                    input = Console.ReadLine();
-                    if (input=="stop")
-                    {
-                        _aServer.Stop();
-                    }
-                    if (input == "start")
-                    {
-                        _aServer.Start();
-                    }
-                } while (!String.IsNullOrWhiteSpace(input));
-            }
         }
     }
 }
+

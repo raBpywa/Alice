@@ -302,10 +302,11 @@ namespace Alice_client
 
         private void picture_MouseDown(object sender, MouseEventArgs e)
         {
+            
             int _mouse_X = (Cursor.Position.X - this.Location.X) - 10;
             int _mouse_Y = (Cursor.Position.Y - this.Location.Y) - 30;
 
-            byte[] mousecoord = BaseTool.Convertbtst("[mouse_down][" + _mouse_X + "][" + _mouse_Y + "]");
+            byte[] mousecoord = BaseTool.Convertbtst("[mouse_down]["+e.Button+"][" + _mouse_X + "][" + _mouse_Y + "]");
                     Connection.server1.Send_mess(mousecoord, _PreySRV);
                     whait_send = 0;
                
@@ -314,7 +315,7 @@ namespace Alice_client
         {
             int _mouse_X = (Cursor.Position.X - this.Location.X) - 10;
             int _mouse_Y = (Cursor.Position.Y - this.Location.Y) - 30;
-            byte[] mousecoord = BaseTool.Convertbtst("[mouse_up][" + _mouse_X + "][" + _mouse_Y + "]");
+            byte[] mousecoord = BaseTool.Convertbtst("[mouse_up][" + e.Button + "][" + _mouse_X + "][" + _mouse_Y + "]");
             Connection.server1.Send_mess(mousecoord, _PreySRV);
             whait_send = 0;
 

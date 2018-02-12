@@ -26,13 +26,20 @@ namespace AliceSRV
            // mouse_event(MouseFlags.Absolute | MouseFlags.RightDown, x, y, 0, UIntPtr.Zero);
            // mouse_event(MouseFlags.Absolute | MouseFlags.RightUp, x, y, 0, UIntPtr.Zero);
         }
-        public static void Mouse_DOWN(int x, int y)
+        public static void Mouse_DOWN(string side, int x, int y)
         {
-         mouse_event(MouseFlags.Absolute | MouseFlags.LeftDown, x, y, 0, UIntPtr.Zero);
+            if (side == "Left")
+                mouse_event(MouseFlags.Absolute | MouseFlags.LeftDown, x, y, 0, UIntPtr.Zero);
+            if (side=="Right")
+                mouse_event(MouseFlags.Absolute | MouseFlags.RightDown, x, y, 0, UIntPtr.Zero);
         }
-        public static void Mouse_UP(int x, int y)
+        public static void Mouse_UP(string side,int x, int y)
         {
-          mouse_event(MouseFlags.Absolute | MouseFlags.LeftUp, x, y, 0, UIntPtr.Zero);
+
+            if (side == "Left")
+                mouse_event(MouseFlags.Absolute | MouseFlags.LeftUp, x, y, 0, UIntPtr.Zero);
+            if (side == "Right")
+                mouse_event(MouseFlags.Absolute | MouseFlags.RightUp, x, y, 0, UIntPtr.Zero);
         }
     }
 }

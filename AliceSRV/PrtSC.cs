@@ -64,8 +64,14 @@ namespace AliceSRV
         private static Object thisLock = new Object();
         public static void Update(Connection server1, IPEndPoint IP)
         {
-
-            SendWithOUtSync(server1, IP);
+            try
+                {
+                SendWithOUtSync(server1, IP);
+            }
+            catch(Exception p)
+            {
+                Console.WriteLine(p.Message);
+            }
 
 
         }

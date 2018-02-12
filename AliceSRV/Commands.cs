@@ -69,7 +69,7 @@ namespace AliceSRV
         public static void Mouse_down(string[] cmd)
         {
 
-            MouseHook.Mouse_DOWN(cmd[1],Convert.ToInt32(cmd[1]), Convert.ToInt32(cmd[2]));
+            MouseHook.Mouse_DOWN(cmd[1],Convert.ToInt32(cmd[2]), Convert.ToInt32(cmd[3]));
         }
         public static void Mouse_up(string[] cmd)
         {

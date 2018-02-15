@@ -105,7 +105,7 @@ namespace AliceSRV
             {
                 IPAddress ip = IPAddress.Parse(BaseTool._get_ip_or_port(cmd[1], BaseTool.IPorPORT.IP));
                 IPEndPoint remote = new IPEndPoint(ip, Convert.ToInt32(BaseTool._get_ip_or_port(cmd[1], BaseTool.IPorPORT.PORT)));
-                Program.server1.Send_mess(BaseTool.Convertbtst("[ping]"), remote);
+              AliceSRV.server1.Send_mess(BaseTool.Convertbtst("[ping]"), remote);
                 WhaitAllData.Ip = remote;
                 WhaitAllData.ForPreyConnect = true;
                 //Thread.Sleep(10);
@@ -127,7 +127,7 @@ namespace AliceSRV
             Console.WriteLine(Resolution.rowlenght);
             //WhaitAllData.stopWatch = true;
             WhaitAllData.restartWatch = false;
-            PrtSC.AllImageUpdatePart(Program.server1, WhaitAllData.Ip);
+            PrtSC.AllImageUpdatePart(AliceSRV.server1, WhaitAllData.Ip);
             WhaitAllData.Updatedata = false;
         }
         public static void change_timesend(string  timesend)

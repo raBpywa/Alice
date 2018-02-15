@@ -65,7 +65,8 @@ namespace Alice_server
 
         public static string _GenerateTokenPrey()
         {
-            var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            // var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789
+            var chars = "0123456789";
             var stringChars = new char[8];
             var random = new Random();
 

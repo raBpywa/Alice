@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace AliceSRV
 {
-    class Prey
+   public class Prey
     {
         public IPEndPoint ip { get; set; }
         public string Name_sacrifice { get; set; }

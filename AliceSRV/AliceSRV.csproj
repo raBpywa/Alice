@@ -45,6 +45,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AliceSRV.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AliceSRV.Designer.cs">
+      <DependentUpon>AliceSRV.cs</DependentUpon>
+    </Compile>
     <Compile Include="BaseTool.cs" />
     <Compile Include="BitmapPixel8.cs" />
     <Compile Include="Commands.cs" />
@@ -65,6 +71,11 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="ClassDiagram1.cd" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="AliceSRV.resx">
+      <DependentUpon>AliceSRV.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

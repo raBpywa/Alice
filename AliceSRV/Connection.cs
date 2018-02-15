@@ -8,7 +8,7 @@ using System.Net;
 
 namespace AliceSRV
 {
-    class Connection
+    public class Connection
     {
         int count_try = 0;
         public bool isConnect=false;

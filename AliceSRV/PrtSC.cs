@@ -89,9 +89,10 @@ namespace AliceSRV
                 //File.WriteAllBytes("bitbyte.png", bitbyte);
 
                 //Thread.Sleep(1);
-                byte[] new_byte = new byte[bitbyte.Length + 1];
-                Array.Copy(bitbyte, 0, new_byte, 1, new_byte.Length - 1);
-                new_byte[0] = i;//добавили координату
+                byte[] new_byte = new byte[bitbyte.Length + 2];
+                Array.Copy(bitbyte, 0, new_byte, 1, new_byte.Length - 2);
+                new_byte[0] = 35;
+                new_byte[1] = i;//добавили координату
                 while (WhaitAllData.Updatedata)
                 {
                     Thread.Sleep(1);
@@ -137,9 +138,10 @@ namespace AliceSRV
                 //File.WriteAllBytes("bitbyte.png", bitbyte);
 
                 //Thread.Sleep(1);
-                byte[] new_byte = new byte[bitbyte.Length + 1];
-                Array.Copy(bitbyte, 0, new_byte, 1, new_byte.Length - 1);
-                new_byte[0] = i;//добавили координату
+                byte[] new_byte = new byte[bitbyte.Length + 2];
+                Array.Copy(bitbyte, 0, new_byte, 1, new_byte.Length - 2);
+                new_byte[0] = 35;//добавили координату
+                new_byte[1] = i;//добавили координату
                 while (WhaitAllData.Updatedata)
                 {
                     Thread.Sleep(1);
@@ -173,10 +175,11 @@ namespace AliceSRV
             {
                 int index = (int)i;
                 byte[] bitbyte = BaseTool.ConvertImageToByteArray(array[index]);
-                byte[] new_byte = new byte[bitbyte.Length + 1];
+                byte[] new_byte = new byte[bitbyte.Length + 2];
 
-                Array.Copy(bitbyte, 0, new_byte, 1, new_byte.Length - 1);
-                new_byte[0] = i;//добавили координату
+                Array.Copy(bitbyte, 0, new_byte, 1, new_byte.Length - 2);
+                new_byte[0] = 35;
+                new_byte[1] = i;//добавили координату
                 All_image.Add(new_byte);
                 //byte[] withimagecomand = imagecomand.Concat(new_byte).ToArray();
                 server1.Send_mess(new_byte, IP);
@@ -227,10 +230,11 @@ namespace AliceSRV
             {
                 int index = (int)i;
                 byte[] bitbyte = BaseTool.ConvertImageToByteArray(array[index]);
-                byte[] new_byte = new byte[bitbyte.Length + 1];
+                byte[] new_byte = new byte[bitbyte.Length + 2];
 
-                Array.Copy(bitbyte, 0, new_byte, 1, new_byte.Length - 1);
-                new_byte[0] = i;//добавили координату
+                Array.Copy(bitbyte, 0, new_byte, 1, new_byte.Length - 2);
+                new_byte[0] = 35;
+                new_byte[1] = i;//добавили координату
                 All_image.Add(new_byte);
                 //byte[] withimagecomand = imagecomand.Concat(new_byte).ToArray();
                 server1.Send_mess(new_byte, IP);

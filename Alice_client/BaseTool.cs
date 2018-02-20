@@ -54,13 +54,19 @@ namespace Alice_client
             
             return _ip;
         }
-
+        static Bitmap  baseimage;
         public static Bitmap _Pullimage(List<PartsImage> ForPullImage)
         {
-            Bitmap test = ForPullImage[0]._real_image;
-            int width = test.Width * Resolution.rowlenght;
-            int height = test.Height * Resolution.rowlenght;
-            Bitmap bi = new Bitmap(width, height);
+           
+            
+            int width = Resolution.weight;
+            int height = Resolution.height;
+
+            baseimage = new Bitmap(width, height);
+            using (var newImage = new Bitmap("base.jpg"))
+            {
+                baseimage = new Bitmap(newImage, width, height);
+            }
 
             for (int i = 0; i < Resolution.rowlenght; i++)
             {
@@ -68,7 +74,8 @@ namespace Alice_client
                 {
                     var index = i * Resolution.rowlenght + j;
 
-                    var graphics = Graphics.FromImage(bi);
+                    var graphics = Graphics.FromImage(baseimage);
+                  
                     graphics.DrawImage(ForPullImage[index]._real_image, new Rectangle(
                         i * ForPullImage[index]._real_image.Width, 
                         j * ForPullImage[index]._real_image.Height,
@@ -79,8 +86,8 @@ namespace Alice_client
                 }
             }
 
-            // bi.Save("bi.bmp");
-            return bi;
+           // baseimage.Save("bi.bmp");
+            return baseimage;
         }
 
         public static List<PartsImage> _GetList (List<byte[]> ForBigImage)
@@ -89,7 +96,7 @@ namespace Alice_client
             int i = 0;
             foreach (var byt in ForBigImage)
             {
-                PartsImage one = new PartsImage(byt[0], byt);
+                PartsImage one = new PartsImage(byt[1], byt);
 
                 imageListAndCoord.Add(one);
 
@@ -100,8 +107,15 @@ namespace Alice_client
         }
         public static Bitmap _ConvertListToArray(byte[] one_image)
         {
-            byte[] realimage = new byte[one_image.Length - 1];
-            Array.Copy(one_image, 1, realimage, 0, realimage.Length);
+            int leng = 1;
+            if (one_image[0] == 0)
+            { leng = 1; }
+            else
+            { leng = 1;
+                one_image[1] = 137;
+            }
+            byte[] realimage = new byte[one_image.Length - leng];
+            Array.Copy(one_image, leng, realimage, 0, realimage.Length);
             Bitmap bmp;
             using (var ms = new MemoryStream(realimage))
             {
@@ -117,7 +131,10 @@ namespace Alice_client
             return new_mas;
         }
         public static List<byte[]> CutInToParts(Bitmap image)
-        {
+        {if ( image==null)
+            {
+                image = new Bitmap("base.jpg");
+            }
             List<byte[]> allbitmspbyte = new List<byte[]>();
             //image.Save("final", ImageFormat.Png);
             int width = image.Size.Width / Resolution.rowlenght;

@@ -81,27 +81,29 @@ namespace Alice_client
 
                 if (on.Length > 1)
                 {
-                    if (on[0].Equals((byte)allbyte.Count))
+                    if (on[0] == 35)
                     {
-                        allbyte.Add(on);
+                        if (on[1].Equals((byte)allbyte.Count))
+                        {
+                            allbyte.Add(on);
 
-                        Connection.server1.Send_mess(BaseTool.Convertbtst("OKKKK"), _aliceSRV);
-                        _PreySRV = _aliceSRV;
+                            Connection.server1.Send_mess(BaseTool.Convertbtst("OKKKK"), _aliceSRV);
+                            _PreySRV = _aliceSRV;
+                        }
+                        else
+                        {
+                            Connection.server1.Send_mess(BaseTool.Convertbtst("NO"), _aliceSRV);
+                            i = allbyte.Count;
+                        }
+
+                        if (on[1] < (byte)allbyte.Count)
+                        {
+                            Connection.server1.Send_mess(BaseTool.Convertbtst("OKKKK"), _aliceSRV);
+                        }
+                        //else
+                        //Connection.server1.Send_mess(BaseTool.Convertbtst("NO"), _aliceSRV);
+
                     }
-                    else
-                    {
-                        Connection.server1.Send_mess(BaseTool.Convertbtst("NO"), _aliceSRV);
-                        i = allbyte.Count;
-                    }
-
-                    if (on[0] < (byte)allbyte.Count)
-                    {
-                        Connection.server1.Send_mess(BaseTool.Convertbtst("OKKKK"), _aliceSRV);
-                    }
-                    //else
-                    //Connection.server1.Send_mess(BaseTool.Convertbtst("NO"), _aliceSRV);
-
-
                 }
                 //Start_recive();
                 // IPEndPoint _aliceSRV = null;
@@ -223,15 +225,17 @@ namespace Alice_client
                 catch
                 {
                     Console.WriteLine("error 1 Нет приема");
+                    Thread.Sleep(1);
                 }
                 string reciv = BaseTool.Convertbtst(next);
 
                 if (next.Length > 12)//error update_data
                 {
-                    Console.WriteLine(next[0]);
-                    if (allbyte.Count>next[0])
+                    Console.WriteLine(next.Length);
+                    if (allbyte.Count>next[1])
                     {
-                        allbyte[next[0]] = next;
+                        Console.WriteLine(next[1]);
+                        allbyte[next[1]] = next;
                     }
                     
                 }
@@ -240,15 +244,15 @@ namespace Alice_client
                     Bitmap _see = BaseTool._Pullimage(BaseTool._GetList(allbyte));
                     Invoke(new Action(() => { see(_see); }));
                 }
-                catch
+                catch(Exception p)
 
                 {
                     Console.WriteLine("error 213 Bitmap _see = BaseTool._Pullimage(BaseTool._GetList(allbyte))");
                     allbyte = BaseTool.CutInToParts((Bitmap)pictureBox1.Image);
                 }
-              
-               
-                  
+
+
+                Thread.Sleep(1);
                
             }
             _stop = false;
@@ -256,7 +260,7 @@ namespace Alice_client
 
         public void see(Bitmap bmp)
         {
-           
+          //  bmp.Save("1.bmp"); 
             pictureBox1.Image = bmp;
             pictureBox1.Refresh();
             flowLayoutPanel1.Refresh();
@@ -366,6 +370,7 @@ namespace Alice_client
             ConnectPrey.resolution = comboBox1.GetItemText(comboBox1.SelectedItem);
            byte[] command = BaseTool.Convertbtst("[change_resolution]["+ ConnectPrey.resolution + "]");
             Connection.server1.Send_mess(command, _PreySRV);
+            Resolution.SetResolution(comboBox1.SelectedItem.ToString());
         }
 
            private void trackBar1_MouseUp(object sender, MouseEventArgs e)

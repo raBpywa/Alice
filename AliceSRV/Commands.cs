@@ -87,7 +87,6 @@ namespace AliceSRV
         public static void Start_Watching()
         {
             WhaitAllData.startWatch = true;
-            // SendKeys.SendWait(cmd[1]);
         }
         public static void Bas()
         {
@@ -108,7 +107,7 @@ namespace AliceSRV
               AliceSRV.server1.Send_mess(BaseTool.Convertbtst("[ping]"), remote);
                 WhaitAllData.Ip = remote;
                 WhaitAllData.ForPreyConnect = true;
-                //Thread.Sleep(10);
+               
             }
         }
 
@@ -125,7 +124,7 @@ namespace AliceSRV
             WhaitAllData.Updatedata = true;
             Resolution.SetPart(Convert.ToInt32(part));
             Console.WriteLine(Resolution.rowlenght);
-            //WhaitAllData.stopWatch = true;
+       
             WhaitAllData.restartWatch = false;
             PrtSC.AllImageUpdatePart(AliceSRV.server1, WhaitAllData.Ip);
             WhaitAllData.Updatedata = false;

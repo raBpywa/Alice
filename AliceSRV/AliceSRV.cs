@@ -24,7 +24,6 @@ namespace AliceSRV
         {
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon();
             notifyIcon1.Icon = new Icon("favicon.ico");
-
             notifyIcon1.Text = "AliceSRV (Управление Desktop персонального компьютера)";
             notifyIcon1.DoubleClick += new System.EventHandler(this.notifyIcon1_Click);
 
